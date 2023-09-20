@@ -1,0 +1,35 @@
+.navitems a li{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+.navitems a.active li {
+    background-color: black !important;
+    color: white !important;
+  
+}
+
+.navitems a:hover li {
+    background-color: #e6e6e6;
+    color: black;
+    transition-duration: 400;
+
+}
+
+.grow{
+    flex-grow: 2;
+}
+.rest-screen{
+    height: calc(100vh - 180px) !important;
+}
+
+.rest-screen-my-prompts{
+    height: calc(100vh - 110px) !important;
+}
+.modal {
+    max-width: 1200px !important;
+}
+.home-prompts{
+    height: calc(100vh - 350px) !important;
+}
