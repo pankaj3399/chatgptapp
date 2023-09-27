@@ -1,21 +1,21 @@
 import httpStatus from "http-status";
 import sendResponse from "../../../utils/helpers/SendResponse.js";
 import catchAsync from "../../../utils/helpers/catchAsync.js";
-import Prompt from "../../models/promtSchema.js";
+import Chat from "../../models/chatSchema.js";
 
-const GetPromptByUserId = catchAsync(
+const GetChatsByAuthId = catchAsync(
     async (req, res) => {
 
-        // finding prompts by user id
-        const prompts = await Prompt.find({ 'user.id': req?.user._id });
+        // finding chats
+        const chats = await Chat.find({ user: req.user._id }).sort({ _id: -1 });
 
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: `Prompts retrived successfully!`,
-            data: prompts
+            message: `Chats retrived successfully!`,
+            data: chats
         });
     }
 )
 
-export default GetPromptByUserId
+export default GetChatsByAuthId
