@@ -13,7 +13,7 @@ import img5 from '../../../assets/massege characters/image5.png'
 
 import { AiOutlineDown } from "@react-icons/all-files/ai/AiOutlineDown";
 import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cx } from "../../../hooks/helpers";
 import toast from "react-hot-toast";
 import { useCreateChatMutation, useGetChatsByAuthIdQuery } from "../../../redux-rtk/features/chat/chatApi";
@@ -27,6 +27,8 @@ const menuItems = [
 ];
 
 export default function MenuDefault({ isNewChat, setIsNewChat }) {
+
+    const chatDivRef = useRef(null);
 
     // rtk
     const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
@@ -42,7 +44,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
         if (isNewChat) {
             setMessages([]);
         } else if (chats?.data) {
-            setMessages(chats?.data[0].messages)
+            setMessages(chats?.data[0]?.messages ? chats.data[0].messages : [])
         } else {
             setMessages([]);
         }
@@ -56,17 +58,41 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
         }
     }, [isSuccess, setIsNewChat])
 
+    useEffect(() => {
+        if (chatDivRef.current) {
+            chatDivRef.current.style.transition = 'scrollTop 0.5s ease-in-out'; // Adjust the duration as needed
+            chatDivRef.current.scrollTop = chatDivRef.current.scrollHeight;
+        }
+    }, [messages]);
+
     // handler
     const handleCreateChat = () => {
+
         if (!message) {
             return toast.error('Message value required!')
         }
 
-        createChat({
+        let sendData = {
             role: "user",
             message,
-            chatId: isNewChat ? undefined : chats?.data[0]._id
-        })
+        };
+
+        setMessages([
+            ...messages,
+            {
+                ...sendData,
+                content: sendData.message
+            }
+        ])
+
+        if (!isNewChat) {
+            sendData = {
+                ...sendData,
+                chatId: chats?.data[0]?._id
+            }
+        }
+
+        createChat(sendData)
     }
 
     // if error
@@ -74,6 +100,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
 
     return (
         <div className="px-2 relative flex flex-col w-full max-h-screen overflow-hidden">
+
             <Menu>
                 <MenuHandler>
                     <Button className="bg-[#E6E6E6] text-black w-48 text-[15px] flex items-center gap-3 px-9 rounded-none">
@@ -98,7 +125,8 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                     ))}
                 </MenuList>
             </Menu>
-            <div className="rest-screen grow overflow-auto mb-5 messages pb-16 px-5">
+
+            <div className="rest-screen grow overflow-auto mb-5 messages pb-16 px-5" ref={chatDivRef}>
 
                 <div className="overflow-auto">
 
@@ -108,10 +136,11 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                         </div>
                     ) : (
                         <>
-                            {(!messages.length || isNewChat) ? <div className="flex items-center justify-center h-full">Ask somthing to get response</div> :
-                                messages.map((message) =>
+                            {(!messages.length && isNewChat) ?
+                                <div className="flex items-center justify-center h-full">Ask somthing to get response</div> :
+                                messages.length ? messages?.map((message) =>
                                     message.role === 'user' ? (
-                                        <div key={message._id}>
+                                        <div key={message?._id}>
                                             <div className="w-1/2 flex justify-end items-center ms-auto right-0 my-5">
                                                 <p className="text-[11px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px]">
                                                     {message.content}
@@ -120,30 +149,30 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="flex items-center  gap-2 w-2/3" key={message._id}>
+                                        <div className="flex items-center  gap-2 w-2/3" key={message?._id}>
                                             <img className="w-[40px] h-[40px]" src={img1} alt="" />
                                             <p className="text-[11px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl min-w-[400px] max-w-[800px]">
                                                 {message.content}
                                             </p>
                                         </div>
                                     )
-                                )}
-                            {message.length ?
+                                ) : null}
+
+                            {isLoading ?
                                 <div>
-                                    <div className="w-1/2 flex justify-end items-center ms-auto right-0 my-5">
-                                        <p className="text-[11px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px]">
+                                    <div className="flex items-center  gap-2 w-2/3" key={'xyz'}>
+                                        <img className="w-[40px] h-[40px]" src={img1} alt="" />
+                                        <p className="text-[11px] tracking-widest font-bold  p-3">
                                             ...
                                         </p>
-                                        <img className="w-[60px] h-[60px]" src={img5} alt="" />
                                     </div>
                                 </div> : null}
                         </>
                     )}
                 </div>
 
-
-
             </div>
+
             <div className="w-full p-2 absolute bottom-0 bg-white left-0">
                 <div className="w-3/5 mx-auto flex justify-between border border-black rounded-md px-5 py-1 sticky bottom-0">
 
@@ -155,6 +184,12 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                         placeholder="Nachricht senden"
                         className="p-3 w-full active:outline-none focus:outline-none"
                         onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleCreateChat();
+                            }
+                        }}
                     />
 
                     <button

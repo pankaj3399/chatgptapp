@@ -9,7 +9,7 @@ const bootstrap = async (app) => {
         console.log(colors.red(`Database is connected successfully`));
 
         server = app.listen(process.env.PORT, () => {
-            console.log(colors.magenta(`Listening on port ${process.env.PORT}`));
+            console.log(colors.magenta(`Listening on port http://localhost:${process.env.PORT}`));
         });
     } catch (err) {
         console.log('Failed to connect database', err);
