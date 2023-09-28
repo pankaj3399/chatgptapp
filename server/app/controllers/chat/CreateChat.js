@@ -53,6 +53,7 @@ const CreateChat = catchAsync(
         } else {
             data = {
                 ...data,
+                title: message,
                 messages: [
                     newMsg
                 ]

@@ -16,7 +16,7 @@ import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 import { useEffect, useRef, useState } from "react";
 import { cx } from "../../../hooks/helpers";
 import toast from "react-hot-toast";
-import { useCreateChatMutation, useGetChatsByAuthIdQuery } from "../../../redux-rtk/features/chat/chatApi";
+import { useCreateChatMutation } from "../../../redux-rtk/features/chat/chatApi";
 import LoadingIcon from "../../Shared/LoadingIcon/LoadingIcon";
 
 const menuItems = [
@@ -26,44 +26,41 @@ const menuItems = [
     { name: "DALL-e 2", imgSrc: img4 },
 ];
 
-export default function MenuDefault({ isNewChat, setIsNewChat }) {
+export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError, chatLoading, setMessages, updateChatId }) {
 
     const chatDivRef = useRef(null);
 
     // rtk
     const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
-    const { data: chats, isLoading: chatLoading, isError } = useGetChatsByAuthIdQuery();
 
     // states
     const [message, setMessage] = useState('')
     const [model, setModel] = useState(menuItems[0].name);
-    const [messages, setMessages] = useState([]);
-
-    // set message data
-    useEffect(() => {
-        if (isNewChat) {
-            setMessages([]);
-        } else if (chats?.data) {
-            setMessages(chats?.data[0]?.messages ? chats.data[0].messages : [])
-        } else {
-            setMessages([]);
-        }
-    }, [chats?.data, isNewChat])
 
     // clear input field
     useEffect(() => {
+
         if (isSuccess) {
             setIsNewChat(false);
             setMessage('')
         }
+
+        // if (isNewChat && isSuccess) {
+        //     // setIsNewChat(false);
+        //     setActiveChatId('')
+        // }
     }, [isSuccess, setIsNewChat])
+    // }, [isSuccess, setIsNewChat, setActiveChatId, isNewChat])
+    // }, [isSuccess, setIsNewChat, apiData?.data, setActiveChatId])
 
     useEffect(() => {
         if (chatDivRef.current) {
-            chatDivRef.current.style.transition = 'scrollTop 0.5s ease-in-out'; // Adjust the duration as needed
+            chatDivRef.current.style.transition = 'scrollTop 0.5s ease-in-out';
             chatDivRef.current.scrollTop = chatDivRef.current.scrollHeight;
         }
     }, [messages]);
+
+    // console.log(messages, 'chk');
 
     // handler
     const handleCreateChat = () => {
@@ -84,11 +81,14 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                 content: sendData.message
             }
         ])
+        // setIsNewChat(false)
+
+        // console.log(messages, 'dd');
 
         if (!isNewChat) {
             sendData = {
                 ...sendData,
-                chatId: chats?.data[0]?._id
+                chatId: updateChatId
             }
         }
 
@@ -136,7 +136,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat }) {
                         </div>
                     ) : (
                         <>
-                            {(!messages.length && isNewChat) ?
+                            {(!messages.length || isNewChat) ?
                                 <div className="flex items-center justify-center h-full">Ask somthing to get response</div> :
                                 messages.length ? messages?.map((message) =>
                                     message.role === 'user' ? (
