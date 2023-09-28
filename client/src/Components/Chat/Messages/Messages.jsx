@@ -28,8 +28,6 @@ const menuItems = [
 
 export default function MenuDefault({ isNewChat, setIsNewChat }) {
 
-    console.log(isNewChat);
-
     // rtk
     const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
     const { data: chats, isLoading: chatLoading, isError } = useGetChatsByAuthIdQuery();

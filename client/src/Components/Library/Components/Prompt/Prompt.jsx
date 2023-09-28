@@ -7,7 +7,6 @@ import {
 import {
     Dialog,
     Button
-
 } from "@material-tailwind/react";
 
 import { AiOutlineHeart } from "@react-icons/all-files/ai/AiOutlineHeart";
@@ -16,16 +15,42 @@ import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
 import { AiOutlineStar } from "@react-icons/all-files/ai/AiOutlineStar";
 import { RiSendPlane2Fill } from "@react-icons/all-files/ri/RiSendPlane2Fill";
 import { ImCross } from "@react-icons/all-files/im/ImCross";
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
 import { FiEdit3 } from "@react-icons/all-files/fi/FiEdit3";
+import LoadingIcon from "../../../Shared/LoadingIcon/LoadingIcon";
+import { useCreateChatMutation } from "../../../../redux-rtk/features/chat/chatApi";
+import toast from "react-hot-toast";
+import { useNavigate } from 'react-router-dom';
 
 export function Prompt({ prompt }) {
+
+    const navigate = useNavigate();
+
+    // rtk
+    const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
 
     const [size, setSize] = useState(null);
     const handleOpen = (value) => setSize(value);
 
     const { name, description, image, type, category, subCategory, user } = prompt;
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/chat')
+        }
+    }, [isSuccess, navigate])
+
+    const handleChatStart = () => {
+        if (!prompt.prompt) {
+            return toast.error('Prompt message not there!!')
+        }
+
+        createChat({
+            role: "user",
+            message: prompt.prompt,
+            chatId: undefined
+        })
+    }
 
     return (
         <>
@@ -126,9 +151,19 @@ export function Prompt({ prompt }) {
                                 </Button>
                             </div>
                             <p className="bg-[#303030] mt-2 text-[12px] p-3 h-5/7">{prompt?.prompt}</p>
-                            <Link to={'/chat'}>
-                                <button className="flex bg-white text-black  items-center py-[10px] pe-[65px] ps-[55px] rounded-md gap-3 w-2/7 mx-auto mt-5"><RiSendPlane2Fill ></RiSendPlane2Fill>Chat starten</button>
-                            </Link>
+
+                            <button
+                                className="flex bg-white text-black  items-center py-[10px] pe-[65px] ps-[55px] rounded-md gap-3 w-2/7 mx-auto mt-5 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                disabled={isLoading}
+                                onClick={handleChatStart}
+                            >
+                                {isLoading ? <LoadingIcon color='black' /> : <>
+                                    <RiSendPlane2Fill ></RiSendPlane2Fill>
+                                    Chat starten
+                                </>}
+
+                            </button>
+
                         </div>
                     </div>
 
