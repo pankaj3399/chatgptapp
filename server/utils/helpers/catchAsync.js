@@ -5,6 +5,7 @@ const catchAsync =
                 await fn(req, res, next);
             } catch (error) {
                 next(error);
+                console.log(error);
             }
         };
 

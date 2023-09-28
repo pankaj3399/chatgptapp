@@ -1,8 +1,12 @@
 import { BsChatDots } from "@react-icons/all-files/bs/BsChatDots";
 import ChatHistory from "../ChatHistory/ChatHistory";
 import Messages from "../Messages/Messages";
+import { useState } from "react";
 
 const Chat = () => {
+
+    const [isNewChat, setIsNewChat] = useState(false);
+
     return (
         <div className="chatbox flex flex-col grow">
             <div>
@@ -10,8 +14,13 @@ const Chat = () => {
             </div>
             <div className="grow">
                 <div className="flex chatarea rest-screen">
-                    <ChatHistory></ChatHistory>
-                    <Messages></Messages>
+                    <ChatHistory
+                        setIsNewChat={setIsNewChat}
+                    />
+                    <Messages
+                        isNewChat={isNewChat}
+                        setIsNewChat={setIsNewChat}
+                    />
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ import categoryRouter from '../app/routers/categoryRouter.js'
 import promptRouter from '../app/routers/promptRouter.js'
 import subCategoryRouter from '../app/routers/subCategoryRouter.js'
 import cardTempRouter from '../app/routers/cardTempRouter.js'
+import chatRouter from '../app/routers/chatRouter.js'
 
 
 const apiRoutes = [
@@ -28,6 +29,10 @@ const apiRoutes = [
     {
         path: '/card-temp',
         route: cardTempRouter,
+    },
+    {
+        path: '/chat',
+        route: chatRouter,
     },
 ];
 
