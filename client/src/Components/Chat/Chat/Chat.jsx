@@ -32,10 +32,10 @@ const Chat = () => {
             setActiveChatId('')
         } else if (chats?.data) {
             if (!activeChatId) {
-                setActiveChatId(chats?.data[0]._id)
+                setActiveChatId(chats?.data[0]?._id)
                 setMessages(chats?.data[0]?.messages ? chats.data[0].messages : [])
             } else {
-                setMessages(chats.data.find((item) => item._id === activeChatId).messages)
+                setMessages(chats.data.find((item) => item?._id === activeChatId).messages)
             }
         } else {
             setMessages([]);
