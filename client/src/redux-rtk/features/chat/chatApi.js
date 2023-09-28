@@ -28,8 +28,8 @@ export const chatApi = apiSlice.injectEndpoints({
             invalidatesTags: ["Chats"],
             async onQueryStarted(arg, { queryFulfilled }) {
                 try {
-                    const result = await queryFulfilled;
-                    toast.success(result.data.message);
+                    await queryFulfilled;
+                    // toast.success(result.data.message);
                 } catch (error) {
                     toast.error(error.error.data.message);
                 }
