@@ -14,28 +14,24 @@ const Chat = () => {
     const [isNewChat, setIsNewChat] = useState(false);
     const [activeChatId, setActiveChatId] = useState('');
 
+    // set active id
+    useEffect(() => {
+        if (chats?.data) {
+            setActiveChatId(chats?.data[0]?._id)
+        } else {
+            setActiveChatId('')
+        }
+    }, [chats?.data])
+
     // set message data
     useEffect(() => {
-        // if (isNewChat) {
-        //     setMessages([]);
-        //     setActiveChatId('')
-        // } else if (chats?.data && !activeChatId) {
-        //     setMessages(chats?.data[0]?.messages ? chats.data[0].messages : [])
-        //     setActiveChatId(chats?.data[0]._id)
-        // } else if (chats?.data && activeChatId) {
-        //     setMessages(chats.data.find((item) => item._id === activeChatId).messages)
-        // } else {
-        //     setMessages([]);
-        // }
         if (isNewChat) {
             setMessages([]);
             setActiveChatId('')
         } else if (chats?.data) {
-            if (!activeChatId) {
-                setActiveChatId(chats?.data[0]?._id)
-                setMessages(chats?.data[0]?.messages ? chats.data[0].messages : [])
-            } else {
-                setMessages(chats.data.find((item) => item?._id === activeChatId).messages)
+            if (activeChatId) {
+                setMessages(chats.data.find((item) => item?._id === activeChatId)?.messages || [])
+                setActiveChatId(chats.data.find((item) => item?._id === activeChatId)?._id)
             }
         } else {
             setMessages([]);
@@ -53,11 +49,14 @@ const Chat = () => {
 
             <div className="grow">
                 <div className="flex chatarea rest-screen">
+
                     <ChatHistory
                         setIsNewChat={setIsNewChat}
                         activeChatId={activeChatId}
                         setActiveChatId={setActiveChatId}
+                        chats={chats?.data}
                     />
+
                     <Messages
                         isNewChat={isNewChat}
                         setIsNewChat={setIsNewChat}

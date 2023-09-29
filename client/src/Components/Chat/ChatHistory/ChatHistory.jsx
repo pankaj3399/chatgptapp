@@ -11,6 +11,7 @@ const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
     // console.log(chats?.chats, 'red');
 
     // console.log(activeChatId, 'hsi active id');
+    // console.log(chats);
 
     return (
         <div className="bg-[#424242] w-1/4 items-center pt-5 rounded-md">
@@ -39,7 +40,7 @@ const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
                             "cursor-pointer flex items-center gap-3 mb-3 hover:bg-[#929090] p-2 rounded-md"
                         )}
                     >
-                        <BsChatDots></BsChatDots> {item.title}
+                        <BsChatDots></BsChatDots> {item.title.length > 20 ? item.title.slice(0, 20) + '...' : item.title}
                     </p>
                 </>)}
             </div>
