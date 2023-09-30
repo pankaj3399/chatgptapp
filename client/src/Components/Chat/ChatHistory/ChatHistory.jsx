@@ -6,15 +6,11 @@ import { cx } from "../../../hooks/helpers";
 
 const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
 
+    // redux state
     const chats = useSelector((state) => state.chat);
 
-    // console.log(chats?.chats, 'red');
-
-    // console.log(activeChatId, 'hsi active id');
-    // console.log(chats);
-
     return (
-        <div className="bg-[#424242] w-1/4 items-center pt-5 rounded-md">
+        <div className="bg-[#424242] w-1/4 items-center pt-5 rounded-md h-full overflow-y-auto">
 
             <Button
                 className="text-black bg-[#E6E6E6] hover:bg-white  flex items-center gap-3 ps-12 w-4/5 mx-auto my-0"
@@ -37,10 +33,10 @@ const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
                         }}
                         className={cx(
                             activeChatId === item._id && '!bg-[#929090]',
-                            "cursor-pointer flex items-center gap-3 mb-3 hover:bg-[#929090] p-2 rounded-md"
+                            "cursor-pointer flex items-center gap-3 mb-3 hover:bg-[#929090] p-2 rounded-md text-[16px]"
                         )}
                     >
-                        <BsChatDots></BsChatDots> {item.title.length > 20 ? item.title.slice(0, 20) + '...' : item.title}
+                        <BsChatDots></BsChatDots> {item.title.length > 20 ? item.title.slice(0, 28) + '...' : item.title}
                     </p>
                 </>)}
             </div>
