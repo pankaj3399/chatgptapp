@@ -135,16 +135,18 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                                     message.role === 'user' ? (
                                         <div key={message?._id}>
                                             <div className="w-1/2 flex justify-end items-center ms-auto right-0 my-5">
-                                                <p className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px]">
+                                                <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px] font-primary" style={{
+                                                    whiteSpace: 'pre-wrap',
+                                                }}>
                                                     {message.content}
-                                                </p>
+                                                </pre>
                                                 <img className="w-[60px] h-[60px]" src={img5} alt="" />
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-2 w-2/3" key={message?._id}>
                                             <img className="w-[40px] h-[40px]" src={img1} alt="" />
-                                            <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl min-w-[400px] max-w-[800px] overflow-x-auto" style={{
+                                            <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl min-w-[400px] max-w-[800px] overflow-x-auto font-primary" style={{
                                                 whiteSpace: 'pre-wrap',
                                             }}>
                                                 {message.content}
