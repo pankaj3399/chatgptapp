@@ -93,6 +93,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
         }
 
         createChat(sendData)
+        setMessage('')
     }
 
     // if error
@@ -188,6 +189,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 handleCreateChat();
+                                setMessage('')
                             }
                         }}
                     />
