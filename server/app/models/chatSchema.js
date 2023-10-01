@@ -10,6 +10,13 @@ const ChatSchema = new Schema({
         type: String,
         required: [true, 'Title required!']
     },
+    model: {
+        type: String,
+        enum: {
+            values: ['ChatGpt', 'UnternehmensGPT', 'Llama 2', 'DALL-e 2'],
+            message: `Status value can not be {VALUE}, must be ChatGpt/UnternehmensGPT/Llama 2/DALL-e 2`
+        },
+    },
     messages: {
         type: [
             {

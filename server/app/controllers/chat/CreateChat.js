@@ -10,7 +10,7 @@ const CreateChat = catchAsync(
 
         // message
         let resData;
-        const { message, role, chatId } = req.body;
+        const { message, role, chatId, model } = req.body;
 
         // user information
         const { user } = req;
@@ -54,6 +54,7 @@ const CreateChat = catchAsync(
             data = {
                 ...data,
                 title: message,
+                model,
                 messages: [
                     newMsg
                 ]
