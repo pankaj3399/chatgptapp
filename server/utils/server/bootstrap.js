@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import colors from 'colors';
+import config from "./config";
 
 let server;
 
 const bootstrap = async (app) => {
     try {
-        await mongoose.connect(process.env.MONGO_CONNECTION);
+        await mongoose.connect(config.MONGO_CONNECTION);
         console.log(colors.red(`Database is connected successfully`));
 
         server = app.listen(process.env.PORT, () => {

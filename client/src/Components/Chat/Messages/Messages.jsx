@@ -18,7 +18,6 @@ import { cx } from "../../../hooks/helpers";
 import toast from "react-hot-toast";
 import { useCreateChatMutation } from "../../../redux-rtk/features/chat/chatApi";
 import LoadingIcon from "../../Shared/LoadingIcon/LoadingIcon";
-// import parse from 'html-react-parser';
 
 const menuItems = [
     { name: "ChatGpt", imgSrc: img1 },
@@ -74,9 +73,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                 content: sendData.message
             }
         ])
-        // setIsNewChat(false)
 
-        // console.log(messages, 'dd');
 
         if (!isNewChat) {
             sendData = {
@@ -131,7 +128,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                     ) : (
                         <>
                             {(!messages.length || isNewChat) ?
-                                <div className="flex items-center justify-center h-full">Ask somthing to get response</div> :
+                                <div className="flex items-center justify-center h-full">Ask something to get response</div> :
                                 messages.length ? messages?.map((message) =>
                                     message.role === 'user' ? (
                                         <div key={message?._id}>
