@@ -64,6 +64,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
         let sendData = {
             role: "user",
             message,
+            model
         };
 
         setMessages([
@@ -137,6 +138,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                                             <div className="w-1/2 flex justify-end items-center ms-auto right-0 my-5">
                                                 <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px] font-primary" style={{
                                                     whiteSpace: 'pre-wrap',
+                                                    fontFamily: 'inherit'
                                                 }}>
                                                     {message.content}
                                                 </pre>
@@ -148,6 +150,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                                             <img className="w-[40px] h-[40px]" src={img1} alt="" />
                                             <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl min-w-[400px] max-w-[800px] overflow-x-auto font-primary" style={{
                                                 whiteSpace: 'pre-wrap',
+                                                fontFamily: 'inherit'
                                             }}>
                                                 {message.content}
                                             </pre>
