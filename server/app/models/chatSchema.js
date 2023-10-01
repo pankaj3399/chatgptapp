@@ -6,6 +6,10 @@ const ChatSchema = new Schema({
         ref: "User",
         required: [true, 'User required!']
     },
+    title: {
+        type: String,
+        required: [true, 'Title required!']
+    },
     messages: {
         type: [
             {

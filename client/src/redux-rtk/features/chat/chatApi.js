@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
 import toast from 'react-hot-toast';
+import { chatLogs } from "./chatSlice";
 
 export const chatApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -9,9 +10,10 @@ export const chatApi = apiSlice.injectEndpoints({
             query: () => 'chat/authenticated-id',
             keepUnusedDataFor: 600,
             providesTags: ['Chats'],
-            async onQueryStarted(arg, { queryFulfilled }) {
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
-                    await queryFulfilled;
+                    const result = await queryFulfilled;
+                    dispatch(chatLogs(result.data.data))
                 } catch (error) {
                     toast.error(error.error.data.message);
                 }
@@ -28,8 +30,8 @@ export const chatApi = apiSlice.injectEndpoints({
             invalidatesTags: ["Chats"],
             async onQueryStarted(arg, { queryFulfilled }) {
                 try {
-                    const result = await queryFulfilled;
-                    toast.success(result.data.message);
+                    await queryFulfilled;
+                    // toast.success(result.data.message);
                 } catch (error) {
                     toast.error(error.error.data.message);
                 }
