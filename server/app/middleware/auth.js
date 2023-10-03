@@ -1,6 +1,7 @@
 import ApiError from "../../utils/errors/ApiError.js";
 import httpStatus from "http-status";
 import verifyToken from "../../utils/helpers/jwt/verifyToken.js";
+import config from "../../utils/server/config.js";
 
 export default (...requiredRoles) => async (req, res, next) => {
     try {
@@ -12,7 +13,7 @@ export default (...requiredRoles) => async (req, res, next) => {
 
         // verify token
         let verifiedUser = null;
-        verifiedUser = verifyToken(token, process.env.TOKEN_SECRET);
+        verifiedUser = verifyToken(token, config.TOKEN_SECRET);
         req.user = verifiedUser; // role  , userid
 
         // role diye guard korar jnno

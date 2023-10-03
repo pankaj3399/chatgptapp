@@ -11,11 +11,6 @@ const createPrompt = catchAsync(async (req, res) => {
     try {
         session.startTransaction();
 
-        console.log({
-            name: req?.user.name,
-            id: userId,
-        });
-
         // Create the prompt
         const result = await Prompt.create([{
             ...req.body,
@@ -28,7 +23,7 @@ const createPrompt = catchAsync(async (req, res) => {
         // Push new prompt id to user
         await User.updateOne({ _id: userId }, {
             $push: {
-                prompts: result._id,
+                prompts: result[0]._id,
             },
         }, { session });
 
@@ -38,7 +33,7 @@ const createPrompt = catchAsync(async (req, res) => {
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: "Category created successfully!",
+            message: "Prompt created successfully!",
         });
     } catch (error) {
         await session.abortTransaction();
