@@ -4,22 +4,20 @@ import sendResponse from "../../../utils/helpers/SendResponse.js";
 import catchAsync from "../../../utils/helpers/catchAsync.js";
 import ApiError from "../../../utils/errors/ApiError.js";
 
-const signup = catchAsync(
-    async (req, res) => {
+const signup = catchAsync(async (req, res) => {
+  // finding user if exists
+  const user = await User.findOne({ email: req.body.email });
+  if (user)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Account already exists!");
 
-        // finding user if exists
-        const user = await User.findOne({ email: req.body.email });
-        if (user) throw new ApiError(httpStatus.BAD_REQUEST, 'Account already exists!');
+  // creating user
+  await User.create(req.body);
 
-        // creating user
-        await User.create(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `User (${data.name}) created successfully!`,
+  });
+});
 
-        sendResponse(res, {
-            statusCode: httpStatus.OK,
-            success: true,
-            message: `User (${data.name}) created successfully!`,
-        });
-    }
-)
-
-export default signup
+export default signup;

@@ -1,17 +1,20 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, Types, model } from "mongoose";
 
-const categorySchema = new Schema({
+const categorySchema = new Schema(
+  {
     name: {
-        type: String,
-        required: [true, 'Category name is required']
+      type: String,
+      required: [true, "Category name is required"],
     },
     subCategories: [
-        {
-            type: Types.ObjectId,
-            ref: "SubCategory",
-        },
+      {
+        type: Types.ObjectId,
+        ref: "SubCategory",
+      },
     ],
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 const Category = model("Category", categorySchema);
 export default Category;

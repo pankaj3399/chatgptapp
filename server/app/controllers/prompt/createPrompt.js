@@ -5,42 +5,51 @@ import Prompt from "../../models/promtSchema.js";
 import User from "../../models/userSchema.js";
 
 const createPrompt = catchAsync(async (req, res) => {
-    const userId = req?.user._id;
-    const session = await Prompt.startSession();
+  const userId = req?.user._id;
+  const session = await Prompt.startSession();
 
-    try {
-        session.startTransaction();
+  try {
+    session.startTransaction();
 
-        // Create the prompt
-        const result = await Prompt.create([{
-            ...req.body,
-            user: {
-                name: req?.user.name,
-                id: userId,
-            },
-        }], { session });
+    // Create the prompt
+    const result = await Prompt.create(
+      [
+        {
+          ...req.body,
+          user: {
+            name: req?.user.name,
+            id: userId,
+          },
+        },
+      ],
+      { session }
+    );
 
-        // Push new prompt id to user
-        await User.updateOne({ _id: userId }, {
-            $push: {
-                prompts: result[0]._id,
-            },
-        }, { session });
+    // Push new prompt id to user
+    await User.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          prompts: result[0]._id,
+        },
+      },
+      { session }
+    );
 
-        await session.commitTransaction();
-        session.endSession();
+    await session.commitTransaction();
+    session.endSession();
 
-        sendResponse(res, {
-            statusCode: httpStatus.OK,
-            success: true,
-            message: "Prompt created successfully!",
-        });
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Prompt created successfully!",
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
 
-        throw error;
-    }
+    throw error;
+  }
 });
 
 export default createPrompt;
