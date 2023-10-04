@@ -157,7 +157,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
 
                             {isLoading ?
                                 <div>
-                                    <div className="flex items-center  gap-2 w-2/3" key={'xyz'}>
+                                    <div className="flex gap-2 w-2/3" key={'xyz'}>
                                         <img className="w-[40px] h-[40px]" src={img1} alt="" />
                                         <p className="text-[14px] tracking-widest font-bold  p-3">
                                             ...
@@ -173,21 +173,23 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
             <div className="w-full p-2 absolute bottom-0 bg-white left-0">
                 <div className="w-3/5 mx-auto flex justify-between border border-black rounded-md px-5 py-1 sticky bottom-0">
 
-                    <input
+                    <textarea
                         type="text"
                         name="message"
                         id="message"
+                        multiple
                         value={message}
                         placeholder="Nachricht senden"
                         className="p-3 w-full active:outline-none focus:outline-none"
+                        style={{ height:'48px' }}
                         onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                handleCreateChat();
-                                setMessage('')
-                            }
-                        }}
+                        // onKeyDown={(e) => {
+                        //     if (e.key === 'Enter') {
+                        //         e.preventDefault();
+                        //         handleCreateChat();
+                        //         setMessage('')
+                        //     }
+                        // }}
                     />
 
                     <button
