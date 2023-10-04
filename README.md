@@ -1,1 +1,3 @@
 # chatgptapp
+
+# react , node
