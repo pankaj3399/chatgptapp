@@ -42,8 +42,8 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
     // clear input field
     useEffect(() => {
         if (isSuccess) {
-            console.log(apiData.newMessage.content);
-            setNewMessage(apiData.newMessage.content)
+            // console.log(apiData?.newMessage?.content);
+            setNewMessage(apiData?.newMessage?.content)
             setIsNewChat(false);
             setMessage('')
         }
@@ -92,7 +92,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
         createChat(sendData)
         setMessage('')
     }
-    console.log(newMessage);
+
     // if error
     if (isError) return <>Error ....</>
 
