@@ -5,7 +5,8 @@ import Prompt from "../../models/promtSchema.js";
 
 const GetPrompts = catchAsync(async (req, res) => {
   // finding categories
-  const datas = await Prompt.find()
+  const data = await Prompt.find()
+    .or([{ company: req?.user.company }, { library: "master" }])
     .populate("user.id")
     .populate("category subCategory image")
     .sort({ _id: -1 });
@@ -14,7 +15,7 @@ const GetPrompts = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: `Prompts retrived successfully!`,
-    data: datas,
+    data: data,
   });
 });
 

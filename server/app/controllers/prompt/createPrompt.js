@@ -20,6 +20,8 @@ const createPrompt = catchAsync(async (req, res) => {
             name: req?.user.name,
             id: userId,
           },
+          company: req?.user.company,
+          library: "company",
         },
       ],
       { session }

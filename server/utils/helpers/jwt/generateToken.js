@@ -7,6 +7,7 @@ export default (data, isRemembered) => {
     role: data.role,
     _id: data._id,
     name: data.name,
+    company: data.company,
   };
   const token = jwt.sign(payload, config.TOKEN_SECRET, {
     expiresIn: isRemembered ? "30d" : config.TOKEN_SECRET_EXP,

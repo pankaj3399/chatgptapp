@@ -54,6 +54,18 @@ const promptSchema = new Schema(
         required: [true, "User id is required"],
       },
     },
+    company: {
+      type: Types.ObjectId,
+      ref: "Company",
+      required: [true, "Company required!"],
+    },
+    library: {
+      type: String,
+      enum: {
+        values: ["master", "company"],
+        message: `Library value can not be {VALUE}, must be master/company`,
+      },
+    },
   },
   { timestamps: true }
 );

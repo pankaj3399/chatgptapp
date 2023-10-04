@@ -7,21 +7,26 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Name filed is required"],
+      required: [true, "Name field is required"],
     },
     image: {
       type: String,
-      required: [true, "Image ulr is required"],
+      required: [true, "Image url is required"],
     },
     email: {
       type: String,
-      required: [true, "Email filed is required"],
+      required: [true, "Email field is required"],
       unique: true,
       validate: [validator.isEmail, "Please provide a valid email."],
     },
     password: {
       type: String,
-      required: [true, "Password filed is required"],
+      required: [true, "Password field is required"],
+    },
+    company: {
+      type: Types.ObjectId,
+      ref: "Company",
+      required: [true, "Company required!"],
     },
     role: {
       type: String,

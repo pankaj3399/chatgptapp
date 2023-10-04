@@ -7,7 +7,7 @@ const router = express.Router();
 
 //routes
 router.get("/", auth(), GetPrompts);
-router.get("/by-auth-user", auth(), GetPromptByUserId);
+// router.get("/by-auth-user", auth(), GetPromptByUserId);
 router.post("/", auth(), createPrompt);
 
 export default router;
