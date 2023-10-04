@@ -18,6 +18,7 @@ import { cx } from "../../../hooks/helpers";
 import toast from "react-hot-toast";
 import { useCreateChatMutation } from "../../../redux-rtk/features/chat/chatApi";
 import LoadingIcon from "../../Shared/LoadingIcon/LoadingIcon";
+import Typist from 'react-typist';
 
 const menuItems = [
     { name: "ChatGpt", imgSrc: img1 },
@@ -31,19 +32,23 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
     const chatDivRef = useRef(null);
 
     // rtk
-    const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
+    const [createChat, { data: apiData, isLoading, isSuccess }] = useCreateChatMutation();
 
     // states
     const [message, setMessage] = useState('')
+    const [newMessage, setNewMessage] = useState('')
     const [model, setModel] = useState(menuItems[0].name);
 
     // clear input field
     useEffect(() => {
         if (isSuccess) {
+            console.log(apiData.newMessage.content);
+            setNewMessage(apiData.newMessage.content)
             setIsNewChat(false);
             setMessage('')
         }
-    }, [isSuccess, setIsNewChat])
+        // setNewMessage('')
+    }, [isSuccess, setIsNewChat, apiData])
 
 
     useEffect(() => {
@@ -52,6 +57,8 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
             chatDivRef.current.scrollTop = chatDivRef.current.scrollHeight;
         }
     }, [messages]);
+
+
 
     // handler
     const handleCreateChat = () => {
@@ -85,7 +92,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
         createChat(sendData)
         setMessage('')
     }
-
+    console.log(newMessage);
     // if error
     if (isError) return <>Error ....</>
 
@@ -129,7 +136,7 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                         <>
                             {(!messages.length || isNewChat) ?
                                 <div className="flex items-center justify-center h-full">Ask something to get response</div> :
-                                messages.length ? messages?.map((message) =>
+                                messages.length ? messages?.map((message, index) =>
                                     message.role === 'user' ? (
                                         <div key={message?._id}>
                                             <div className="w-1/2 flex justify-end items-center ms-auto right-0 my-5">
@@ -149,7 +156,9 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                                                 whiteSpace: 'pre-wrap',
                                                 fontFamily: 'inherit'
                                             }}>
-                                                {message.content}
+                                                {(messages.length - 1 === index && newMessage) ? <Typist>
+                                                    {message.content}
+                                                </Typist> : message.content}
                                             </pre>
                                         </div>
                                     )
@@ -181,15 +190,15 @@ export default function MenuDefault({ isNewChat, setIsNewChat, messages, isError
                         value={message}
                         placeholder="Nachricht senden"
                         className="p-3 w-full active:outline-none focus:outline-none"
-                        style={{ height:'48px' }}
+                        style={{ height: '48px' }}
                         onChange={(e) => setMessage(e.target.value)}
-                        // onKeyDown={(e) => {
-                        //     if (e.key === 'Enter') {
-                        //         e.preventDefault();
-                        //         handleCreateChat();
-                        //         setMessage('')
-                        //     }
-                        // }}
+                    // onKeyDown={(e) => {
+                    //     if (e.key === 'Enter') {
+                    //         e.preventDefault();
+                    //         handleCreateChat();
+                    //         setMessage('')
+                    //     }
+                    // }}
                     />
 
                     <button
