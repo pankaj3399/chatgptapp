@@ -19,37 +19,37 @@ const LeftNavbar = () => {
                     <NavLink className={
                         ({ isActive }) => {
                             return (
-                                isActive && 'active'
+                                isActive ? 'active' : ''
                             )
                         }
                     } to={'/library'}>
                         <li className='flex font-extrabold gap-[22px] text-[15px]  p-4 rounded-md items-center'>
                             <FiBook className='text-[16px]'></FiBook>
-                            <a>Bibliothek</a>
+                            <span>Bibliothek</span>
                         </li>
                     </NavLink >
                     <NavLink className={
                         ({ isActive }) => {
                             return (
-                                isActive && 'active'
+                                isActive ? 'active' : ''
                             )
                         }
                     } to={'/chat'}>
                         <li className='flex font-extrabold gap-[22px] text-[15px]  p-4 rounded-md items-center'>
                             <BsChatDots className='text-[16px]'></BsChatDots>
-                            <a>Chat</a>
+                            <span>Chat</span>
                         </li>
                     </NavLink >
                     <NavLink className={
                         ({ isActive }) => {
                             return (
-                                isActive && 'active'
+                                isActive ? 'active' : ''
                             )
                         }
                     } to={'/myPrompts'}>
                         <li className='flex font-extrabold gap-[22px] text-[15px]  p-4 rounded-md '>
                             <AiOutlineStar className='text-[18px]'></AiOutlineStar>
-                            <a>Meine Prompts</a>
+                            <span>Meine Prompts</span>
                         </li>
                     </NavLink >
 
