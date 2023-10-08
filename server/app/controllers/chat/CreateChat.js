@@ -134,7 +134,9 @@ const CreateChat = catchAsync(async (req, res) => {
     success: true,
     message: "Chat generated successfully",
     data: resData,
-    newMessage: chatId ? data.messages[data.messages.length - 1] : data.messages[1]
+    newMessage: chatId
+      ? data.messages[data.messages.length - 1]
+      : data.messages[1],
   });
 });
 
