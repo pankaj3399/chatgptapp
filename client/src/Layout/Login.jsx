@@ -128,7 +128,7 @@ export default function Login() {
                     <CardFooter className="pt-0 ms-auto">
                         <Button
                             className={cx(
-                                isLoading && 'flex items-center'
+                                isLoading ? 'flex items-center' : ''
                             )}
                             variant="black"
                             fullWidth

@@ -127,6 +127,8 @@ const CreateChat = catchAsync(async (req, res) => {
     await resData.save();
   }
 
+  // console.log(chatId ? data.messages[data.messages.length - 1] : data.messages[1]);
+
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

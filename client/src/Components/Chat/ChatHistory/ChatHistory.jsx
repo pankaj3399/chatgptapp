@@ -24,7 +24,7 @@ const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
             </Button>
 
             <div className="text-white p-5">
-                {chats?.chats.map((item) => <>
+                {chats?.chats.map((item) => <div key={item._id}>
                     <p
                         role="button"
                         onClick={() => {
@@ -32,13 +32,14 @@ const ChatHistory = ({ activeChatId, setIsNewChat, setActiveChatId }) => {
                             setIsNewChat(false)
                         }}
                         className={cx(
-                            activeChatId === item._id && '!bg-[#929090]',
+                            activeChatId === item._id ? '!bg-[#929090]' : '',
                             "cursor-pointer flex items-center gap-3 mb-3 hover:bg-[#929090] p-2 rounded-md text-[16px]"
                         )}
+
                     >
                         <BsChatDots></BsChatDots> {item.title.length > 20 ? item.title.slice(0, 28) + '...' : item.title}
                     </p>
-                </>)}
+                </div>)}
             </div>
         </div>
     );

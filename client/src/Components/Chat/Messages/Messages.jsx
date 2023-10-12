@@ -12,13 +12,12 @@ import img4 from "../../../assets/ai logos/image4.png";
 import img5 from "../../../assets/massege characters/image5.png";
 
 import { AiOutlineDown } from "@react-icons/all-files/ai/AiOutlineDown";
-import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 import { useEffect, useRef, useState } from "react";
-import { cx } from "../../../hooks/helpers";
-import toast from "react-hot-toast";
+import { cx, getRandomInt } from "../../../hooks/helpers";
 import { useCreateChatMutation } from "../../../redux-rtk/features/chat/chatApi";
 import LoadingIcon from "../../Shared/LoadingIcon/LoadingIcon";
-import Typist from 'react-typist-component';
+import TypingMessage from "./TypingMessage";
+import NewMessageInp from "./NewMessageInp";
 
 const menuItems = [
   { name: "ChatGpt", imgSrc: img1 },
@@ -39,60 +38,28 @@ export default function MenuDefault({
   const chatDivRef = useRef(null);
 
   // rtk
-  const [createChat, { data: apiData, isLoading, isSuccess }] =
-    useCreateChatMutation();
+  const [createChat, { data: apiData, isLoading, isSuccess }] = useCreateChatMutation();
 
   // states
-  const [message, setMessage] = useState("");
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
+  const [newMessageTimestamp, setNewMessageTimestamp] = useState('');
   const [model, setModel] = useState(menuItems[0].name);
 
   // clear input field
   useEffect(() => {
     if (isSuccess) {
-      setNewMessage(apiData?.newMessage?.content);
+      setNewMessage(apiData?.newMessage?.content)
+      setNewMessageTimestamp(apiData?.newMessage?.createdContentAt)
       setIsNewChat(false);
-      setMessage("");
     }
-  }, [isSuccess, setIsNewChat, apiData]);
+  }, [isSuccess, setIsNewChat, apiData])
 
   useEffect(() => {
     if (chatDivRef.current) {
-      chatDivRef.current.style.transition = "scrollTop 0.5s ease-in-out";
+      chatDivRef.current.style.transition = 'scrollTop 0.5s ease-in-out';
       chatDivRef.current.scrollTop = chatDivRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // handler
-  const handleCreateChat = () => {
-    if (!message) {
-      return toast.error("Message value required!");
-    }
-
-    let sendData = {
-      role: "user",
-      message,
-      model,
-    };
-
-    setMessages([
-      ...messages,
-      {
-        ...sendData,
-        content: sendData.message,
-      },
-    ]);
-
-    if (!isNewChat) {
-      sendData = {
-        ...sendData,
-        chatId: updateChatId,
-      };
-    }
-
-    createChat(sendData);
-    setMessage("");
-  };
 
   // if error
   if (isError) return <>Error ....</>;
@@ -124,110 +91,79 @@ export default function MenuDefault({
         </MenuList>
       </Menu>
 
-      <div
-        className="rest-screen grow overflow-auto mb-5 messages pb-16 px-5"
-        ref={chatDivRef}
-      >
+
+      <div className="rest-screen grow overflow-auto mb-5 messages pb-16 px-5" ref={chatDivRef}>
+
         <div className="overflow-auto">
+
           {chatLoading ? (
             <div className="flex items-center justify-center h-full">
-              <LoadingIcon color="black" />
+              <LoadingIcon color='black' />
             </div>
           ) : (
             <>
-              {!messages.length || isNewChat ? (
-                <div className="flex items-center justify-center h-full">
-                  Ask something to get response
-                </div>
-              ) : messages.length ? (
-                messages?.map((message, index) =>
-                  message.role === "user" ? (
-                    <div key={message?._id}>
-                        {console.log(message.content,newMessage)}
-                      <div className="w-1/2 flex justify-end ms-auto right-0 my-5">
-                        <pre
-                          className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl min-w-[400px] max-w-[800px] font-primary"
-                          style={{
-                            whiteSpace: "pre-wrap",
-                            fontFamily: "inherit",
-                          }}
-                        >
+              {(!messages.length || isNewChat) ?
+                <div className="flex items-center justify-center h-full">Ask something to get response</div> :
+                messages.length ? messages?.map((message, index) =>
+                  message.role === 'user' ? (
+                    <div key={`${message._id}${getRandomInt()}`}>
+                      <div className="max-w-[50%] w-fit flex justify-end items-center ms-auto right-0 my-5">
+                        <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl w-fit max-w-[800px] font-primary" style={{
+                          whiteSpace: 'pre-wrap',
+                          fontFamily: 'inherit'
+                        }}>
                           {message.content}
                         </pre>
                         <img className="w-[60px] h-[60px]" src={img5} alt="" />
                       </div>
                     </div>
                   ) : (
-                    <div className="flex gap-2 w-2/3" key={message?._id}>
+                    <div className="flex items-center gap-2 max-w-[67%] w-fit" key={`${message._id}${getRandomInt()}`}>
                       <img className="w-[40px] h-[40px]" src={img1} alt="" />
-                      <pre
-                        className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl min-w-[400px] max-w-[800px] overflow-x-auto font-primary"
-                        style={{
-                          whiteSpace: "pre-wrap",
-                          fontFamily: "inherit",
-                        }}
-                      >
-                        {messages.length - 1 === index && newMessage ? (
-                          <Typist typingDelay={100}>{message.content}</Typist>
-                        ) : (
+                      <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl w-fit max-w-[800px] overflow-x-auto font-primary" style={{
+                        whiteSpace: 'pre-wrap',
+                        fontFamily: 'inherit'
+                      }}>
+                        {(messages.length - 1 === index && newMessage && Number(newMessageTimestamp) === Number(message.createdContentAt)) ?
+                          <TypingMessage
+                            content={message.content}
+                            setNewMessage={setNewMessage}
+                            setNewMessageTimestamp={setNewMessageTimestamp}
+                          /> :
                           message.content
-                        )}
+                        }
                       </pre>
                     </div>
                   )
-                )
-              ) : null}
+                ) : null}
 
-              {isLoading ? (
+              {isLoading ?
                 <div>
-                  <div className="flex gap-2 w-2/3" key={"xyz"}>
+                  <div className="flex gap-2 w-2/3" key={'xyz'}>
                     <img className="w-[40px] h-[40px]" src={img1} alt="" />
                     <p className="text-[14px] tracking-widest font-bold  p-3">
                       ...
                     </p>
                   </div>
-                </div>
-              ) : null}
+                </div> : null}
             </>
           )}
         </div>
+
       </div>
 
       <div className="w-full p-2 absolute bottom-0 bg-white left-0">
-        <div className="w-3/5 mx-auto flex justify-between border border-black rounded-md px-5 py-1 sticky bottom-0">
-          <textarea
-            type="text"
-            name="message"
-            id="message"
-            multiple
-            value={message}
-            placeholder="Nachricht senden"
-            className="p-3 w-full active:outline-none focus:outline-none"
-            style={{ height: "48px" }}
-            onChange={(e) => setMessage(e.target.value)}
-            // onKeyDown={(e) => {
-            //     if (e.key === 'Enter') {
-            //         e.preventDefault();
-            //         handleCreateChat();
-            //         setMessage('')
-            //     }
-            // }}
-          />
-
-          <button
-            type="button"
-            disabled={!message || isLoading}
-            className="disabled:text-gray-300 disabled:cursor-not-allowed"
-            onClick={handleCreateChat}
-          >
-            {isLoading ? (
-              <div className="text-black">...</div>
-            ) : (
-              <IoMdSend className="text-2xl" />
-            )}
-          </button>
-        </div>
+        <NewMessageInp
+          model={model}
+          updateChatId={updateChatId}
+          messages={messages}
+          setMessages={setMessages}
+          isNewChat={isNewChat}
+          createChat={createChat}
+          isLoading={isLoading}
+        />
       </div>
+
     </div>
   );
 }

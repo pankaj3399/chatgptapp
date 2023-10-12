@@ -186,7 +186,7 @@ const CreatePrompts = () => {
                         <button
                             className={cx(
                                 "bg-white text-black py-1 px-4 rounded-md text-[14px] me-2 hover:bg-[#E6E6E6]",
-                                item._id === activeCategory && '!bg-gray-400'
+                                item._id === activeCategory ? '!bg-gray-400' : ''
                             )}
                             key={item._id}
                             onClick={() => handleChangeCategory(item._id)}
@@ -205,7 +205,7 @@ const CreatePrompts = () => {
                             key={item._id}
                             className={cx(
                                 "bg-white text-black py-1 px-4 rounded-md text-[14px] me-2 hover:bg-[#E6E6E6]",
-                                item._id === subCategory && '!bg-gray-400'
+                                item._id === subCategory ? '!bg-gray-400' : ''
                             )}
                             onClick={() => setSubCategory(item._id)}
                         >
@@ -221,7 +221,7 @@ const CreatePrompts = () => {
                         onClick={() => setImage(item._id)}
                     >
                         <img src={item.url} alt="" className={cx(
-                            image !== item._id && 'opacity-50 blur-sm'
+                            image !== item._id ? 'opacity-50 blur-sm' : ''
                         )} />
                     </button>)}
                 </div>

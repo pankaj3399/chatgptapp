@@ -115,7 +115,7 @@ export function TopNavbar() {
                     handler={handleOpen}
                     className="bg-[#303030] text-white rounded-none p-[15px]"
                 >
-
+                    <div></div>
                 </Dialog>
             </div>
         </div>

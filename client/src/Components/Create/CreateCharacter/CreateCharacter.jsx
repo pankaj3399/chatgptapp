@@ -219,7 +219,7 @@ const CreateCharacter = () => {
               )}
               key={item._id}
               onClick={() => handleChangeCategory(item._id)}
-              // setActiveCategory(item._id)
+            // setActiveCategory(item._id)
             >
               {item.name}
             </button>
