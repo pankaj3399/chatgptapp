@@ -1,7 +1,7 @@
 import { useTypingEffect } from '../../../hooks/helpers'
 
 const TypingMessage = ({ content, setNewMessage, setNewMessageTimestamp }) => {
-    const msg = useTypingEffect(content, 100, setNewMessage, setNewMessageTimestamp);
+    const msg = useTypingEffect(content, 30, setNewMessage, setNewMessageTimestamp);
     return msg;
 };
 // const TypingMessage = React.memo(function TypingMessage({ content }) {

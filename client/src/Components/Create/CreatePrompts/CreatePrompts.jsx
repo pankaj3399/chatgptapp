@@ -26,7 +26,7 @@ import { useCreatePromptMutation } from "../../../redux-rtk/features/prompt/prom
 import toast from "react-hot-toast";
 
 const menuItems = [
-    { name: "ChatGpt", imgSrc: img1 },
+    { name: "GPT-4", imgSrc: img1 },
     { name: "UnternehmensGPT", imgSrc: img2 },
     { name: "Llama 2", imgSrc: img3 },
     { name: "DALL-e 2", imgSrc: img4 },

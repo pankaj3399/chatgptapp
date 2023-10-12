@@ -32,8 +32,8 @@ const promptSchema = new Schema(
     model: {
       type: String,
       enum: {
-        values: ["ChatGpt", "UnternehmensGPT", "Llama 2", "DALL-e 2"],
-        message: `Status value can not be {VALUE}, must be ChatGpt/UnternehmensGPT/Llama 2/DALL-e 2`,
+        values: ["GPT-4", "UnternehmensGPT", "Llama 2", "DALL-e 2"],
+        message: `Status value can not be {VALUE}, must be GPT-4/UnternehmensGPT/Llama 2/DALL-e 2`,
       },
     },
     type: {

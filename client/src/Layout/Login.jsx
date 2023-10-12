@@ -6,7 +6,8 @@ import {
     Button,
 } from "@material-tailwind/react";
 import { useLocation, useNavigate } from "react-router-dom";
-import logo from '../assets/Logo/logo.png'
+//import logo from '../assets/Logo/logo.png'
+import newLogo from '../assets/Logo/logoNew.png'
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
@@ -56,7 +57,7 @@ export default function Login() {
     return (
         <div className="w-screen absolute top-1/4">
             <div className="w-1/4 mx-auto flex items-center gap-3">
-                <img className="w-16 h-16" src={logo} alt="" />
+                <img className="w-16 h-16" src={newLogo} alt="" />
                 <h2 className="text-xl font-extrabold">Powerful AI For Business</h2>
             </div>
             <form action="" onSubmit={handleSubmit(onSubmit)}>

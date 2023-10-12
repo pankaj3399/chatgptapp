@@ -20,7 +20,7 @@ import TypingMessage from "./TypingMessage";
 import NewMessageInp from "./NewMessageInp";
 
 const menuItems = [
-  { name: "ChatGpt", imgSrc: img1 },
+  { name: "GPT-4", imgSrc: img1 },
   { name: "UnternehmensGPT", imgSrc: img2 },
   { name: "Llama 2", imgSrc: img3 },
   { name: "DALL-e 2", imgSrc: img4 },
