@@ -5,6 +5,7 @@ import Prompt from "../../models/promtSchema.js";
 
 const GetPrompts = catchAsync(async (req, res) => {
   // finding categories
+  console.log(req.query, "Hello");
   const data = await Prompt.find()
     .or([{ company: req?.user.company }, { library: "master" }])
     .populate("user.id")

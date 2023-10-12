@@ -70,5 +70,6 @@ const promptSchema = new Schema(
   { timestamps: true }
 );
 
+promptSchema.index({ name: "text", description: "text" });
 const Prompt = model("Prompt", promptSchema);
 export default Prompt;

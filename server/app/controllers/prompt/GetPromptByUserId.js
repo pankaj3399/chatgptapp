@@ -5,7 +5,9 @@ import Prompt from "../../models/promtSchema.js";
 
 const GetPromptByUserId = catchAsync(async (req, res) => {
   // finding prompts by user id
-  const prompts = await Prompt.find({ "user.id": req?.user._id });
+  const prompts = await Prompt.find({ "user.id": req?.user._id })
+    .populate("user.id")
+    .populate("category subCategory image");
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
