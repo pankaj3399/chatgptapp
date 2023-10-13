@@ -92,7 +92,7 @@ export default function MenuDefault({
       </Menu>
 
 
-      <div className="rest-screen grow overflow-auto mb-5 messages pb-16 px-5" ref={chatDivRef}>
+      <div className="rest-screen grow overflow-auto mb-5 messages pb-52 px-5" ref={chatDivRef}>
 
         <div className="overflow-auto">
 
