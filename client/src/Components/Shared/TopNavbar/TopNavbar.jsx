@@ -10,13 +10,23 @@ import { Dialog, DialogHeader, DialogBody } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "../../../redux-rtk/features/auth/authSlice";
 import { loginUrl } from "../../../configs/constants";
+import {
+  setSearchValue,
+  selectSearchValue,
+} from "../../../redux-rtk/features/search/searchSlice.js";
+import {
+  setSearchLibValue,
+  selectSearchLibValue,
+} from "../../../redux-rtk/features/searchLib/searchLibSlice.js";
 
 export function TopNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
+  const searchValue = useSelector(selectSearchValue);
+  const searchLib = useSelector(selectSearchLibValue);
   const [open, setOpen] = React.useState(false);
+  const [userQuery, setUserQuery] = React.useState("");
   const handleCreate = () => setOpen(!open);
 
   const [size, setSize] = React.useState(null);
@@ -25,6 +35,14 @@ export function TopNavbar() {
   const handleLogout = () => {
     dispatch(userLoggedOut());
     navigate(loginUrl);
+  };
+  const submitQuery = () => {
+    location.pathname==="/myPrompts"&&dispatch(setSearchValue(userQuery));
+    location.pathname==="/library"&&dispatch(setSearchLibValue(userQuery));
+  };
+  const handleSearchInputChange = (event) => {
+    const inputValue = event.target.value;
+    setUserQuery(inputValue);
   };
 
   return (
@@ -42,11 +60,14 @@ export function TopNavbar() {
                 name=""
                 id=""
                 placeholder="Prompt suchen"
+                value={userQuery}
+                onChange={handleSearchInputChange}
               />
             </div>
             <Button
               size="sm"
               className="font-extrabold rounded bg-[#E6E6E6] text-black"
+              onClick={submitQuery}
             >
               Suchen
             </Button>

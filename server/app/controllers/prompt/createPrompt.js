@@ -10,33 +10,58 @@ const createPrompt = catchAsync(async (req, res) => {
 
   try {
     session.startTransaction();
+    console.log(req.body);
+    console.log("hello")
+    if (req.body.id) {
+      // If an _id is provided, update the existing prompt
+      const existingPrompt = await Prompt.findById(req.body.id);
 
-    // Create the prompt
-    const result = await Prompt.create(
-      [
-        {
-          ...req.body,
-          user: {
-            name: req?.user.name,
-            id: userId,
+      if (!existingPrompt) {
+        throw new Error("Prompt not found"); // Handle this error as needed
+      }
+
+      // Update the existing prompt
+      Object.assign(existingPrompt, {
+        ...req.body,
+        user: {
+          name: req?.user.name,
+          id: userId,
+        },
+        company: req?.user.company,
+        library: "company",
+      });
+      console.log(existingPrompt)
+      const updatedPrompt = await existingPrompt.save({ session });
+
+      // Handle any additional logic for updating prompts
+    } else {
+      // If no _id is provided, create a new prompt
+      const result = await Prompt.create(
+        [
+          {
+            ...req.body,
+            user: {
+              name: req?.user.name,
+              id: userId,
+            },
+            company: req?.user.company,
+            library: "company",
           },
-          company: req?.user.company,
-          library: "company",
-        },
-      ],
-      { session }
-    );
+        ],
+        { session }
+      );
 
-    // Push new prompt id to user
-    await User.updateOne(
-      { _id: userId },
-      {
-        $push: {
-          prompts: result[0]._id,
+      // Push new prompt id to user
+      await User.updateOne(
+        { _id: userId },
+        {
+          $push: {
+            prompts: result[0]._id,
+          },
         },
-      },
-      { session }
-    );
+        { session }
+      );
+    }
 
     await session.commitTransaction();
     session.endSession();
@@ -44,7 +69,7 @@ const createPrompt = catchAsync(async (req, res) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Prompt created successfully!",
+      message: "Prompt created/updated successfully!",
     });
   } catch (error) {
     await session.abortTransaction();

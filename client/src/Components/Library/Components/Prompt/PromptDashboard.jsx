@@ -7,6 +7,12 @@ const PromptDashboard = ({ activeCategory, activeSubCategory, promptLoading, dat
     const [filteredPrompts, setFilterPrompts] = useState([]);
 
     // set filterd prompt
+    function deletePrompts(id){
+        let arr = filteredPrompts
+        const idx = filteredPrompts.findIndex(obj => obj.id === id)
+        delete arr[idx]
+        setFilterPrompts(arr)
+    }
     useEffect(() => {
         if (activeCategory && activeSubCategory === 'All' && datas?.length) {
             setFilterPrompts(datas.filter((item) => item.category.name === activeCategory))
@@ -17,6 +23,7 @@ const PromptDashboard = ({ activeCategory, activeSubCategory, promptLoading, dat
         }
     }, [activeCategory, datas, activeSubCategory])
 
+
     return (
         <div className="home-prompts pb-5 mt-5 overflow-y-auto pr-5">
 
@@ -26,7 +33,8 @@ const PromptDashboard = ({ activeCategory, activeSubCategory, promptLoading, dat
                     {filteredPrompts.map(prompt => <Prompt
                         key={prompt._id}
                         prompt={prompt}
-                    ></Prompt>)}
+                        deletePrompts={deletePrompts}
+                    ></Prompt >)}
                 </div>}
 
         </div>
