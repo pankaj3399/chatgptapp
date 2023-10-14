@@ -11,7 +11,6 @@ const createPrompt = catchAsync(async (req, res) => {
   try {
     session.startTransaction();
     console.log(req.body);
-    console.log("hello");
     const result = await Prompt.create(
       [
         {

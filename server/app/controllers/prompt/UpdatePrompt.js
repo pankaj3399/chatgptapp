@@ -10,8 +10,6 @@ const updatePrompt = catchAsync(async (req, res) => {
 
   try {
     session.startTransaction();
-    console.log(req.body);
-    console.log("hello");
     // If an _id is provided, update the existing prompt
     const existingPrompt = await Prompt.findById(req.body.id);
 
@@ -29,7 +27,6 @@ const updatePrompt = catchAsync(async (req, res) => {
       company: req?.user.company,
       library: "company",
     });
-    console.log(existingPrompt);
     const updatedPrompt = await existingPrompt.save({ session });
 
     // Handle any additional logic for updating prompts

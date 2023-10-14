@@ -6,7 +6,6 @@ import { useGetCategoriesQuery } from "../../redux-rtk/features/category/categor
 import { useEffect, useState } from "react";
 import { useGetPromptsQuery } from "../../redux-rtk/features/prompt/promptApi";
 import PromptDashboard from "./Components/Prompt/PromptDashboard";
-import { selectSearchValue } from '../../redux-rtk/features/search/searchSlice.js';
 import { selectSearchLibValue } from '../../redux-rtk/features/searchLib/searchLibSlice.js';
 
 const Library = () => {
@@ -15,7 +14,6 @@ const Library = () => {
     const { data: categories, isLoading, isError, isSuccess } = useGetCategoriesQuery();
     const searchLibValue = useSelector(selectSearchLibValue);
     const { data: prompts, isLoading: promptLoading, isError: promptError, isSuccess: promptSuccesss } = useGetPromptsQuery(searchLibValue);
-    const searchValue = useSelector(selectSearchValue);
     // states
     const [activeCategory, setActiveCategory] = useState('');
     const [activeSubCategory, setActiveSubCategory] = useState('');

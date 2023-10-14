@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
 import { useDispatch } from "react-redux";
 import DeleteIcon from "../../../../assets/icons/deleteIcon.svg";
-// import CreatePrompts from "../../../Create/CreatePrompts/CreatePrompts";
 
 export function Prompt({ prompt, deletePrompts }) {
   const navigate = useNavigate();
@@ -33,7 +32,7 @@ export function Prompt({ prompt, deletePrompts }) {
   const [size, setSize] = useState(null);
   const [sizeDel, setSizeDel] = useState(null);
   const handleOpen = (e,value) => {
-    if(e.target.innerText==="DELETE")return
+    if(e.target.innerText==="Delete")return
     setSize(value);
   }
   const handleClickOutside = (value)=>{
@@ -104,8 +103,8 @@ export function Prompt({ prompt, deletePrompts }) {
                 Edit<FiEdit3></FiEdit3>
               </button>
               <button
-                onClick={() => {
-                  handleOpen("lg");
+                 onClick={() => {
+                  handleOpenDel("lg");
                 }}
                 style={{right: '5rem'}}
                 className="bg-white text-black py-1 ps-1 w-[60px] rounded-md flex items-center text-xs ms-auto absolute top-3 "
@@ -129,33 +128,6 @@ export function Prompt({ prompt, deletePrompts }) {
                 ? description?.slice(0, 135) + "..."
                 : description}
             </div>
-            {location.pathname === "/myPrompts" && (
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small" 
-                  style={{ margin: "3px" }}
-                  onClick={() => {
-                    location.pathname === "/myPrompts" &&
-                      navigate("/createPrompts", { state: prompt });
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small" 
-                  style={{ margin: "3px" }}
-                  onClick={() => {
-                    handleOpenDel("lg");
-                  }}
-                >
-                  Delete
-                </Button>
-              </div>
-            )}
           </Typography>
         </CardBody>
       </Card>
