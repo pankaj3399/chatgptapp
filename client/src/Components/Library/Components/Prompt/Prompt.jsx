@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Card,
   CardHeader,
@@ -19,15 +20,12 @@ import { useCreateChatMutation } from "../../../../redux-rtk/features/chat/chatA
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
-import { useDispatch } from "react-redux";
 import DeleteIcon from "../../../../assets/icons/delete.png";
-// import CreatePrompts from "../../../Create/CreatePrompts/CreatePrompts";
 
 export function Prompt({ prompt, deletePrompts }) {
   const navigate = useNavigate();
   // rtk
-  const [deletePrompt, { isLoading: promptLoading, isSuccess: checkSuccess }] =
-    useDeletePromptMutation();
+  const [deletePrompt] = useDeletePromptMutation();
   const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
 
   const [size, setSize] = useState(null);
@@ -83,12 +81,27 @@ export function Prompt({ prompt, deletePrompts }) {
           className="m-0 rounded-none"
         >
           <img className="w-full" src={image?.url} alt="ui/ux review check" />
-          {prompt.edit ? (
-            <button className="bg-white text-black py-1 ps-5 w-[60px] rounded-md flex items-center text-xs ms-auto right-3 absolute top-3 ">
-              Edit<FiEdit3></FiEdit3>
-            </button>
-          ) : (
-            <></>
+          {location.pathname === "/myPrompts" && (
+            <>
+              <button
+                onClick={() => {
+                  location.pathname === "/myPrompts" &&
+                    navigate("/createPrompts", { state: prompt });
+                }}
+                className="bg-white text-black py-1 ps-5 w-[60px] rounded-md flex items-center text-xs ms-auto right-3 absolute top-3 "
+              >
+                Edit<FiEdit3></FiEdit3>
+              </button>
+              <button
+                onClick={() => {
+                  handleOpen("lg");
+                }}
+                style={{right: '5rem'}}
+                className="bg-white text-black py-1 ps-1 w-[60px] rounded-md flex items-center text-xs ms-auto absolute top-3 "
+              >
+                Delete<FiEdit3></FiEdit3>
+              </button>
+            </>
           )}
         </CardHeader>
         <CardBody className="p-[10px]">
@@ -105,33 +118,6 @@ export function Prompt({ prompt, deletePrompts }) {
                 ? description?.slice(0, 135) + "..."
                 : description}
             </div>
-            {location.pathname === "/myPrompts" && (
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small" 
-                  style={{ margin: "3px" }}
-                  onClick={() => {
-                    location.pathname === "/myPrompts" &&
-                      navigate("/createPrompts", { state: prompt });
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small" 
-                  style={{ margin: "3px" }}
-                  onClick={() => {
-                    handleOpen("lg");
-                  }}
-                >
-                  Delete
-                </Button>
-              </div>
-            )}
           </Typography>
         </CardBody>
       </Card>
@@ -258,7 +244,7 @@ export function Prompt({ prompt, deletePrompts }) {
               <Button
                 variant="contained"
                 color="primary"
-                size="small" 
+                size="small"
                 className="m-3 bg-red-500 text-base"
                 onClick={() => {
                   deletePromptApiCall(prompt._id);
@@ -269,7 +255,7 @@ export function Prompt({ prompt, deletePrompts }) {
               <Button
                 variant="contained"
                 color="primary"
-                size="small" 
+                size="small"
                 className="m-3 bg-white text-black text-base"
                 onClick={() => {
                   handleOpen(null);
