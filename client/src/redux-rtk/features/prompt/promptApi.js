@@ -52,6 +52,23 @@ export const promptApi = apiSlice.injectEndpoints({
       },
     }),
 
+    updatePrompt: builder.mutation({
+      query: (data) => ({
+        url: "prompt",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Prompts"],
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          const result = await queryFulfilled;
+          toast.success(result.data.message);
+        } catch (error) {
+          toast.error(error.error.data.message);
+        }
+      },
+    }),
+
     // Add a mutation for deleting a prompt
     deletePrompt: builder.mutation({
       query: (data) => ({
@@ -75,5 +92,6 @@ export const {
   useGetPromptsQuery,
   useGetPromptsByUserQuery,
   useCreatePromptMutation,
+  useUpdatePromptMutation,
   useDeletePromptMutation // Add the delete mutation to the exported functions
 } = promptApi;

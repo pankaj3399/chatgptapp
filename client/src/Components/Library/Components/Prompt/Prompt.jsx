@@ -20,7 +20,8 @@ import { useCreateChatMutation } from "../../../../redux-rtk/features/chat/chatA
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
-import DeleteIcon from "../../../../assets/icons/delete.png";
+import { useDispatch } from "react-redux";
+import DeleteIcon from "../../../../assets/icons/deleteIcon.svg";
 
 export function Prompt({ prompt, deletePrompts }) {
   const navigate = useNavigate();
@@ -29,7 +30,15 @@ export function Prompt({ prompt, deletePrompts }) {
   const [createChat, { isLoading, isSuccess }] = useCreateChatMutation();
 
   const [size, setSize] = useState(null);
-  const handleOpen = (value) => setSize(value);
+  const [sizeDel, setSizeDel] = useState(null);
+  const handleOpen = (e,value) => {
+    if(e.target.innerText==="Delete")return
+    setSize(value);
+  }
+  const handleClickOutside = (value)=>{
+    setSize(value);
+  }
+  const handleOpenDel = (value) => setSizeDel(value);
 
   const { name, description, image, type, category, subCategory, user } =
     prompt;
@@ -70,8 +79,9 @@ export function Prompt({ prompt, deletePrompts }) {
     <>
       <Card
         className=" cursor-pointer max-w-[24rem] overflow-hidden my-[5px] rounded-sm relative"
-        onClick={() => {
-          location.pathname === "/library" && handleOpen("lg");
+        onClick={(e) => {
+          location.pathname === "/library" && handleOpen(e,"lg");
+          location.pathname === "/myPrompts" && handleOpen(e,"lg");
         }}
       >
         <CardHeader
@@ -93,8 +103,8 @@ export function Prompt({ prompt, deletePrompts }) {
                 Edit<FiEdit3></FiEdit3>
               </button>
               <button
-                onClick={() => {
-                  handleOpen("lg");
+                 onClick={() => {
+                  handleOpenDel("lg");
                 }}
                 style={{right: '5rem'}}
                 className="bg-white text-black py-1 ps-1 w-[60px] rounded-md flex items-center text-xs ms-auto absolute top-3 "
@@ -122,11 +132,11 @@ export function Prompt({ prompt, deletePrompts }) {
         </CardBody>
       </Card>
       <>
-        {location.pathname === "/library" && (
+        {/* {location.pathname === "/library" && ( */}
           <Dialog
             open={size === "lg"}
             size={size || "lg"}
-            handler={handleOpen}
+            handler={handleClickOutside}
             className="bg-[#303030] text-white rounded-none w-[1200px] modal 2xl:max-w-[1200px] lg:max-w-[1200px] md:max-w-[1200px] max-w-[1200px] md:w-5/6 lg:w-3/4 2xl:w-3/5 min-w-[90%] md:min-w-[83.333333%] lg:min-w-[1200px] 2xl:min-w-[1200px] "
           >
             {/* <CreatePrompts /> */}
@@ -189,7 +199,7 @@ export function Prompt({ prompt, deletePrompts }) {
                   </p>
                   <Button
                     variant="text"
-                    onClick={() => handleOpen(null)}
+                    onClick={(e) => handleOpen(e,null)}
                     className="mr-1"
                   >
                     <span className="flex bg-white text-red-900 py-2 gap-2 text-md rounded-sm items-center px-4">
@@ -218,23 +228,23 @@ export function Prompt({ prompt, deletePrompts }) {
               </div>
             </div>
           </Dialog>
-        )}
+        {/* )} */}
 
         {location.pathname === "/myPrompts" && (
           <Dialog
-            open={size === "lg"}
-            handler={handleOpen}
+            open={sizeDel === "lg"}
+            handler={handleOpenDel}
             className="bg-[#303030] p-8 text-white  modal rounded-lg  flex flex-col gap-8"
           >
             <div className="flex justify-between">
               <div className="flex gap-4">
-                <img src={DeleteIcon} alt="Delete Icon" className="w-20 h-10" />
-                <h1 className="text-2xl">Prompt aus Datenbank entfernen'</h1>
+                <img src={DeleteIcon} alt="Delete Icon" className="mt-[-5px] h-10" />
+                <h1 className="text-2xl">Prompt aus Datenbank entfernen?</h1>
               </div>
               <span
                 className="float-right text-xl cursor-pointer"
-                onClick={() => {
-                  handleOpen(null);
+                onClick={(e) => {
+                  handleOpenDel(null);
                 }}
               >
                 X
@@ -257,8 +267,8 @@ export function Prompt({ prompt, deletePrompts }) {
                 color="primary"
                 size="small"
                 className="m-3 bg-white text-black text-base"
-                onClick={() => {
-                  handleOpen(null);
+                onClick={(e) => {
+                  handleOpenDel(null);
                 }}
               >
                 Nein
