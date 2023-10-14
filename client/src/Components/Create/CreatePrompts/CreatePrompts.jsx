@@ -21,6 +21,7 @@ import { cx } from "../../../hooks/helpers";
 import LoadingIcon from "../../Shared/LoadingIcon/LoadingIcon";
 import { useGetCardTempsQuery } from "../../../redux-rtk/features/cardTemp/cardTempApi";
 import { useCreatePromptMutation } from "../../../redux-rtk/features/prompt/promptApi";
+import { useUpdatePromptMutation } from "../../../redux-rtk/features/prompt/promptApi";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 
@@ -62,6 +63,8 @@ const CreatePrompts = () => {
   } = useGetCardTempsQuery();
   const [createPrompt, { isLoading: promptLoading, isSuccess }] =
     useCreatePromptMutation();
+  const [updatePrompt, { isLoading: promptLoadingUpd, isSuccess:isSuccessUpd }] =
+    useUpdatePromptMutation();
 
   // states
   const [activeCategory, setActiveCategory] = useState();
@@ -98,17 +101,18 @@ const CreatePrompts = () => {
 
   // clearing states
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isSuccessUpd) {
       setInput({ name: "", prompt: "", description: "", type: "prompt" });
       setModel("");
       setImage("");
       setActiveCategory("");
       setSubCategory("");
-
+  
       // navigate to
       navigate("/library");
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, isSuccessUpd, navigate]);
+  
 
   // change category with sub cate
   const handleChangeCategory = (catId) => {
@@ -144,8 +148,12 @@ const CreatePrompts = () => {
       toast.error("All fields are required!");
       return;
     }
-
-    createPrompt(setData);
+    if(!location.state){
+      createPrompt(setData);
+    }
+    else if(location.state){
+      updatePrompt(setData)
+    }
   };
 
   if (isError || cardTempError) return <>Error...</>;

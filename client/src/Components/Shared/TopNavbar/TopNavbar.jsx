@@ -36,9 +36,10 @@ export function TopNavbar() {
     dispatch(userLoggedOut());
     navigate(loginUrl);
   };
-  const submitQuery = () => {
-    location.pathname==="/myPrompts"&&dispatch(setSearchValue(userQuery));
-    location.pathname==="/library"&&dispatch(setSearchLibValue(userQuery));
+  const submitQuery = (e) => {
+    e.preventDefault();
+    location.pathname === "/myPrompts" && dispatch(setSearchValue(userQuery));
+    location.pathname === "/library" && dispatch(setSearchLibValue(userQuery));
   };
   const handleSearchInputChange = (event) => {
     const inputValue = event.target.value;
@@ -49,29 +50,31 @@ export function TopNavbar() {
     <div className="w-full sticky top-0 right-0 z-50 bg-white">
       <Navbar className="px-4 shadow-white z-50 max-w-full">
         <div className="flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900">
-          <div className="relative flex w-full gap-2 md:w-max">
-            <div className="flex items-center gap-2 bg-[#FAFAFA]">
-              <p className="ps-4">
-                <BiSearch></BiSearch>
-              </p>
-              <input
-                className="bg-[#FAFAFA] py-3 ps-3 pe-16"
-                type="search"
-                name=""
-                id=""
-                placeholder="Prompt suchen"
-                value={userQuery}
-                onChange={handleSearchInputChange}
-              />
+          <form action="" onSubmit={(e) => submitQuery(e)}>
+            <div className="relative flex w-full gap-2 md:w-max">
+              <div className="flex items-center gap-2 bg-[#FAFAFA]">
+                <p className="ps-4">
+                  <BiSearch></BiSearch>
+                </p>
+                <input
+                  className="bg-[#FAFAFA] py-3 ps-3 pe-16"
+                  type="search"
+                  name=""
+                  id=""
+                  placeholder="Prompt suchen"
+                  value={userQuery}
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+              <Button
+                size="sm"
+                className="font-extrabold rounded bg-[#E6E6E6] text-black"
+                type="submit"
+              >
+                Suchen
+              </Button>
             </div>
-            <Button
-              size="sm"
-              className="font-extrabold rounded bg-[#E6E6E6] text-black"
-              onClick={submitQuery}
-            >
-              Suchen
-            </Button>
-          </div>
+          </form>
           <div className="flex items-center gap-4">
             <button
               className="flex items-center text-4 font-bold bg-[#E6E6E6] py-2 px-8 rounded-md"
