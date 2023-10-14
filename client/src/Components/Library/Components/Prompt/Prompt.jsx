@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
 import { useDispatch } from "react-redux";
-import DeleteIcon from "../../../../assets/icons/deleteIcon.png";
+import DeleteIcon from "../../../../assets/icons/deleteIcon.svg";
 // import CreatePrompts from "../../../Create/CreatePrompts/CreatePrompts";
 
 export function Prompt({ prompt, deletePrompts }) {
