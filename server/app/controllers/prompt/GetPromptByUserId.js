@@ -5,9 +5,28 @@ import Prompt from "../../models/promtSchema.js";
 
 const GetPromptByUserId = catchAsync(async (req, res) => {
   // finding prompts by user id
-  const prompts = await Prompt.find({ "user.id": req?.user._id })
-    .populate("user.id")
-    .populate("category subCategory image");
+  const stringRegex = /^[a-zA-Z0-9_\-]+$/;
+  let prompts;
+  const searchTerm = req.query.params;
+  if (stringRegex.test(searchTerm)) {
+    // prompts = await Prompt.find({"user.id":req?.user._id})
+    prompts = await Prompt.find({
+      $and: [
+        { "user.id": req?.user._id }, // Filter by user ID
+        {
+          $or: [
+            { name: { $regex: searchTerm, $options: "i" } }, // Case-insensitive name search
+            { description: { $regex: searchTerm, $options: "i" } }, // Case-insensitive description search
+          ],
+        },
+      ],
+    })
+      .populate("user.id")
+      .populate("category subCategory image");
+  } else
+    prompts = await Prompt.find({ "user.id": req?.user._id })
+      .populate("user.id")
+      .populate("category subCategory image");
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

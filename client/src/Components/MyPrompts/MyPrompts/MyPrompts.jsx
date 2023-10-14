@@ -1,7 +1,7 @@
 import { AiOutlineStar } from "@react-icons/all-files/ai/AiOutlineStar";
 import { FiEdit3 } from "@react-icons/all-files/fi/FiEdit3";
 import person from "../../../assets/massege characters/image5.png";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // import img1 from '../../../assets/color plates/Rectangle 1.png'
 // import img2 from '../../../assets/color plates/Rectangle 2.png'
@@ -17,9 +17,14 @@ import {
 } from "@material-tailwind/react";
 import { Prompt } from "../../Library/Components/Prompt/Prompt";
 import { useGetPromptsByUserQuery } from "../../../redux-rtk/features/prompt/promptApi";
-
+import { useSelector } from "react-redux";
+import { selectSearchValue } from "../../../redux-rtk/features/search/searchSlice.js";
 const MyPrompts = () => {
   const [activeTab, setActiveTab] = React.useState("html");
+  const searchValue = useSelector(selectSearchValue);
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
   const data = [
     {
       label: "Meine Prompts",
@@ -40,7 +45,9 @@ const MyPrompts = () => {
   ];
 
   const { data: prompts, isLoading: promptLoading } =
-    useGetPromptsByUserQuery();
+    useGetPromptsByUserQuery(searchValue);
+
+  // console.log(useGetPromptsByUserQuery())
 
   // const prompts = [
   //     {

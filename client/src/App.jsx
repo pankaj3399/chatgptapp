@@ -28,6 +28,7 @@ function App() {
         <Route path="createPrompts" element={<RequireAuth><CreatePrompts /></RequireAuth>} />
         <Route path="createCharacter" element={<RequireAuth><CreateCharacter /></RequireAuth>} />
 
+
       </Route>
     </Routes>
   )
