@@ -1,7 +1,8 @@
 import { apiSlice } from "../api/apiSlice";
 import Cookies from 'js-cookie';
-import { profileLog, userLoggedIn } from "./authSlice";
+import { profileLog, userLoggedIn, userLoggedOut } from "./authSlice";
 import toast from 'react-hot-toast';
+import { jwtExpMsg } from "../../../configs/constants";
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -62,6 +63,9 @@ export const authApi = apiSlice.injectEndpoints({
                     const result = await queryFulfilled;
                     dispatch(profileLog(result.data.user));
                 } catch (error) {
+                    if (error.error.data.message === jwtExpMsg) {
+                        dispatch(userLoggedOut());
+                    }
                     toast.error(error.error.data.message);
                 }
             }

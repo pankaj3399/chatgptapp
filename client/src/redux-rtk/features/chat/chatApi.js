@@ -1,6 +1,8 @@
 import { apiSlice } from "../api/apiSlice";
 import toast from 'react-hot-toast';
 import { chatLogs } from "./chatSlice";
+import { jwtExpMsg } from "../../../configs/constants";
+import { userLoggedOut } from "../auth/authSlice";
 
 export const chatApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -15,6 +17,9 @@ export const chatApi = apiSlice.injectEndpoints({
                     const result = await queryFulfilled;
                     dispatch(chatLogs(result.data.data))
                 } catch (error) {
+                    if (error.error.data.message === jwtExpMsg) {
+                        dispatch(userLoggedOut());
+                    }
                     toast.error(error.error.data.message);
                 }
             }
@@ -28,11 +33,14 @@ export const chatApi = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ["Chats"],
-            async onQueryStarted(arg, { queryFulfilled }) {
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     await queryFulfilled;
                     // toast.success(result.data.message);
                 } catch (error) {
+                    if (error.error.data.message === jwtExpMsg) {
+                        dispatch(userLoggedOut());
+                    }
                     toast.error(error.error.data.message);
                 }
             }
