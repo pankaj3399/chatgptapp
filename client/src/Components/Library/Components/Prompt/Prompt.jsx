@@ -20,7 +20,6 @@ import { useCreateChatMutation } from "../../../../redux-rtk/features/chat/chatA
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
-import { useDispatch } from "react-redux";
 import DeleteIcon from "../../../../assets/icons/deleteIcon.svg";
 
 export function Prompt({ prompt, deletePrompts }) {
@@ -210,7 +209,6 @@ export function Prompt({ prompt, deletePrompts }) {
                 <p className="bg-[#303030] mt-2 text-[12px] p-3 h-5/7">
                   {prompt?.prompt}
                 </p>
-                <button>edit</button>
                 <button
                   className="flex bg-white text-black  items-center py-[10px] pe-[65px] ps-[55px] rounded-md gap-3 w-2/7 mx-auto mt-5 disabled:bg-gray-400 disabled:cursor-not-allowed"
                   disabled={isLoading}
@@ -243,7 +241,7 @@ export function Prompt({ prompt, deletePrompts }) {
               </div>
               <span
                 className="float-right text-xl cursor-pointer"
-                onClick={(e) => {
+                onClick={() => {
                   handleOpenDel(null);
                 }}
               >
@@ -267,7 +265,7 @@ export function Prompt({ prompt, deletePrompts }) {
                 color="primary"
                 size="small"
                 className="m-3 bg-white text-black text-base"
-                onClick={(e) => {
+                onClick={() => {
                   handleOpenDel(null);
                 }}
               >

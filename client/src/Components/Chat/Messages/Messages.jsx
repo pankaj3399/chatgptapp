@@ -107,7 +107,7 @@ export default function MenuDefault({
                 messages.length ? messages?.map((message, index) =>
                   message.role === 'user' ? (
                     <div key={`${message._id}${getRandomInt()}`}>
-                      <div className="max-w-[50%] w-fit flex justify-end items-center ms-auto right-0 my-5">
+                      <div className="max-w-[50%] w-fit flex justify-end ms-auto right-0 my-5">
                         <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl w-fit max-w-[800px] font-primary" style={{
                           whiteSpace: 'pre-wrap',
                           fontFamily: 'inherit'
@@ -118,7 +118,7 @@ export default function MenuDefault({
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 max-w-[67%] w-fit" key={`${message._id}${getRandomInt()}`}>
+                    <div className="flex gap-2 max-w-[67%] w-fit" key={`${message._id}${getRandomInt()}`}>
                       <img className="w-[40px] h-[40px]" src={img1} alt="" />
                       <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl w-fit max-w-[800px] overflow-x-auto font-primary" style={{
                         whiteSpace: 'pre-wrap',

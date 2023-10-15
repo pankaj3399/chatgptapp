@@ -26,10 +26,10 @@ import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 
 const menuItems = [
-  { name: "GPT-4", imgSrc: img1 },
-  { name: "UnternehmensGPT", imgSrc: img2 },
-  { name: "Llama 2", imgSrc: img3 },
-  { name: "DALL-e 2", imgSrc: img4 },
+  { name: "GPT-4", imgSrc: img1, disabled: false },
+  { name: "UnternehmensGPT", imgSrc: img2, disabled: true },
+  { name: "Llama 2", imgSrc: img3, disabled: true },
+  { name: "DALL-e 2", imgSrc: img4, disabled: true },
 ];
 
 const CreatePrompts = () => {
@@ -63,7 +63,7 @@ const CreatePrompts = () => {
   } = useGetCardTempsQuery();
   const [createPrompt, { isLoading: promptLoading, isSuccess }] =
     useCreatePromptMutation();
-  const [updatePrompt, { isLoading: promptLoadingUpd, isSuccess:isSuccessUpd }] =
+  const [updatePrompt, { isSuccess:isSuccessUpd }] =
     useUpdatePromptMutation();
 
   // states
@@ -97,6 +97,7 @@ const CreatePrompts = () => {
           setSubCategories(categories?.data[0]?.subCategories);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories?.data]);
 
   // clearing states
@@ -203,6 +204,7 @@ const CreatePrompts = () => {
                   "text-black p-3 flex items-center gap-3 text-[15px] rounded-none hover:bg-[#64748B]",
                   menuItem.name === model ? "!bg-[#64748B]" : "bg-[#E6E6E6]"
                 )}
+                disabled={menuItem.disabled}
                 onClick={() => setModel(menuItem.name)}
               >
                 <img
