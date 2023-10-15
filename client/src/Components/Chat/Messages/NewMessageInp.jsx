@@ -14,7 +14,6 @@ const NewMessageInp = ({
 
   // states
   const [message, setMessage] = useState("");
-  const [textareaHeight, setTextareaHeight] = useState('48px');
 
   const handleTextareaChange = (e) => {
     setMessage(e.target.value);
@@ -41,8 +40,7 @@ const NewMessageInp = ({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleCreateChat();
-      setMessage('');
-      setTextareaHeight('48px'); // Reset the height after sending
+      e.target.style.height ='48px';
     } else if (e.key === 'Enter' && e.shiftKey) {
       e.preventDefault();
       setMessage((prevMessage) => prevMessage + '\n');
@@ -78,7 +76,7 @@ const NewMessageInp = ({
     }
 
     createChat(sendData);
-    setMessage("");
+    setMessage('');
   };
 
   return (
@@ -90,7 +88,7 @@ const NewMessageInp = ({
         value={message}
         placeholder="Nachricht senden"
         className="p-3 w-full active:outline-none focus:outline-none resize-none"
-        style={{ height: textareaHeight }}
+        style={{ height: '48px' }}
         onChange={handleTextareaChange}
         onKeyDown={handleEnterPress}
       />

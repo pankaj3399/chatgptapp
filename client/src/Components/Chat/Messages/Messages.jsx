@@ -20,10 +20,10 @@ import TypingMessage from "./TypingMessage";
 import NewMessageInp from "./NewMessageInp";
 
 const menuItems = [
-  { name: "GPT-4", imgSrc: img1 },
-  { name: "UnternehmensGPT", imgSrc: img2 },
-  { name: "Llama 2", imgSrc: img3 },
-  { name: "DALL-e 2", imgSrc: img4 },
+  { name: "GPT-4", imgSrc: img1, disabled: false },
+  { name: "UnternehmensGPT", imgSrc: img2, disabled: true },
+  { name: "Llama 2", imgSrc: img3, disabled: true },
+  { name: "DALL-e 2", imgSrc: img4, disabled: true },
 ];
 
 export default function MenuDefault({
@@ -82,6 +82,7 @@ export default function MenuDefault({
                 "text-black p-3 flex items-center gap-3 text-[15px] rounded-none hover:bg-[#64748B]",
                 menuItem.name === model ? "!bg-[#64748B]" : "bg-[#E6E6E6]"
               )}
+              disabled={menuItem.disabled}
               onClick={() => setModel(menuItem.name)}
             >
               <img className="w-[23px] h-[23px]" src={menuItem.imgSrc} alt="" />
@@ -107,7 +108,7 @@ export default function MenuDefault({
                 messages.length ? messages?.map((message, index) =>
                   message.role === 'user' ? (
                     <div key={`${message._id}${getRandomInt()}`}>
-                      <div className="max-w-[50%] w-fit flex justify-end items-center ms-auto right-0 my-5">
+                      <div className="max-w-[50%] w-fit flex justify-end ms-auto right-0 my-5">
                         <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-bl-xl w-fit max-w-[800px] font-primary" style={{
                           whiteSpace: 'pre-wrap',
                           fontFamily: 'inherit'
@@ -118,7 +119,7 @@ export default function MenuDefault({
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 max-w-[67%] w-fit" key={`${message._id}${getRandomInt()}`}>
+                    <div className="flex gap-2 max-w-[67%] w-fit" key={`${message._id}${getRandomInt()}`}>
                       <img className="w-[40px] h-[40px]" src={img1} alt="" />
                       <pre className="text-[14px] bg-[#424242] text-white p-3 flex items-center px-3 rounded-t-xl rounded-br-xl w-fit max-w-[800px] overflow-x-auto font-primary" style={{
                         whiteSpace: 'pre-wrap',

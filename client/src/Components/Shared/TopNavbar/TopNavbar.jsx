@@ -10,13 +10,19 @@ import { Dialog, DialogHeader, DialogBody } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "../../../redux-rtk/features/auth/authSlice";
 import { loginUrl } from "../../../configs/constants";
+import {
+  setSearchValue,
+} from "../../../redux-rtk/features/search/searchSlice.js";
+import {
+  setSearchLibValue,
+} from "../../../redux-rtk/features/searchLib/searchLibSlice.js";
 
 export function TopNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
   const [open, setOpen] = React.useState(false);
+  const [userQuery, setUserQuery] = React.useState("");
   const handleCreate = () => setOpen(!open);
 
   const [size, setSize] = React.useState(null);
@@ -26,31 +32,45 @@ export function TopNavbar() {
     dispatch(userLoggedOut());
     navigate(loginUrl);
   };
+  const submitQuery = (e) => {
+    e.preventDefault();
+    location.pathname === "/myPrompts" && dispatch(setSearchValue(userQuery));
+    location.pathname === "/library" && dispatch(setSearchLibValue(userQuery));
+  };
+  const handleSearchInputChange = (event) => {
+    const inputValue = event.target.value;
+    setUserQuery(inputValue);
+  };
 
   return (
     <div className="w-full sticky top-0 right-0 z-50 bg-white">
       <Navbar className="px-4 shadow-white z-50 max-w-full">
         <div className="flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900">
-          <div className="relative flex w-full gap-2 md:w-max">
-            <div className="flex items-center gap-2 bg-[#FAFAFA]">
-              <p className="ps-4">
-                <BiSearch></BiSearch>
-              </p>
-              <input
-                className="bg-[#FAFAFA] py-3 ps-3 pe-16"
-                type="search"
-                name=""
-                id=""
-                placeholder="Prompt suchen"
-              />
+          <form action="" onSubmit={(e) => submitQuery(e)}>
+            <div className="relative flex w-full gap-2 md:w-max">
+              <div className="flex items-center gap-2 bg-[#FAFAFA]">
+                <p className="ps-4">
+                  <BiSearch></BiSearch>
+                </p>
+                <input
+                  className="bg-[#FAFAFA] py-3 ps-3 pe-16"
+                  type="search"
+                  name=""
+                  id=""
+                  placeholder="Prompt suchen"
+                  value={userQuery}
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+              <Button
+                size="sm"
+                className="font-extrabold rounded bg-[#E6E6E6] text-black"
+                type="submit"
+              >
+                Suchen
+              </Button>
             </div>
-            <Button
-              size="sm"
-              className="font-extrabold rounded bg-[#E6E6E6] text-black"
-            >
-              Suchen
-            </Button>
-          </div>
+          </form>
           <div className="flex items-center gap-4">
             <button
               className="flex items-center text-4 font-bold bg-[#E6E6E6] py-2 px-8 rounded-md"
@@ -89,7 +109,7 @@ export function TopNavbar() {
               onClick={handleCreate}
             >
               <Link to={"/createPrompts"}>
-                <div className=" bg-white text-black p-5 rounded-md">
+                <div className=" bg-white text-black p-5 rounded-md" style={{height: '241px'}}>
                   <h1 className="text-[25px] font-extrabold pb-3">Prompt</h1>
                   <p className="text-[13px] font-thin">
                     Ein Prompt der eine spezifische Anweisung an die KI stellt,
@@ -101,7 +121,7 @@ export function TopNavbar() {
                 </div>
               </Link>
               <Link to={"/createCharacter"} onClick={handleCreate}>
-                <div className=" bg-white text-black p-5 rounded-md">
+                <div className=" bg-white text-black p-5 rounded-md" style={{height: '241px'}}>
                   <h1 className="text-[25px] font-extrabold pb-3">Charakter</h1>
                   <p className="text-[13px] font-thin">
                     Ein Prompt der einer KI einen bestimmten Charakter und

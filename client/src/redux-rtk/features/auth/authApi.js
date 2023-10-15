@@ -6,7 +6,6 @@ import { jwtExpMsg } from "../../../configs/constants";
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-
         // register endpoint here
         // signup: builder.mutation({
         //     query: (data) => ({
@@ -28,30 +27,35 @@ export const authApi = apiSlice.injectEndpoints({
         // login endpoint here
         login: builder.mutation({
             query: (data) => ({
-                url: 'auth/signin',
-                method: 'POST',
-                body: data
+                url: "auth/signin",
+                method: "POST",
+                body: data,
             }),
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
-
                     const result = await queryFulfilled;
 
                     // setting logged data to redux state
-                    dispatch(userLoggedIn({
-                        accessToken: result.data.data.accessToken,
-                        _id: result.data.data.user._id,
-                        user: result.data.data.user,
-                    }));
+                    dispatch(
+                        userLoggedIn({
+                            accessToken: result.data.data.accessToken,
+                            _id: result.data.data.user._id,
+                            user: result.data.data.user,
+                        })
+                    );
 
                     // setting cookies
-                    Cookies.set('accessToken', result.data.data.accessToken, { expires: arg.rememberMe ? 30 : 1 });
-                    Cookies.set('_id', result.data.data.user._id, { expires: arg.rememberMe ? 30 : 1 });
+                    Cookies.set("accessToken", result.data.data.accessToken, {
+                        expires: arg.rememberMe ? 30 : 1,
+                    });
+                    Cookies.set("_id", result.data.data.user._id, {
+                        expires: arg.rememberMe ? 30 : 1,
+                    });
                     toast.success(result.data.message);
                 } catch (error) {
-                    toast.error(error?.error?.data?.message)
+                    toast.error(error?.error?.data?.message);
                 }
-            }
+            },
         }),
 
         // get profile endpoint here
@@ -77,5 +81,5 @@ export const authApi = apiSlice.injectEndpoints({
 export const {
     // useSignupMutation,
     useLoginMutation,
-    useGetProfileQuery
+    useGetProfileQuery,
 } = authApi;

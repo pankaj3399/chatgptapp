@@ -4,39 +4,32 @@ import catchAsync from "../../../utils/helpers/catchAsync.js";
 import Prompt from "../../models/promtSchema.js";
 import User from "../../models/userSchema.js";
 
-const createPrompt = catchAsync(async (req, res) => {
+const updatePrompt = catchAsync(async (req, res) => {
   const userId = req?.user._id;
   const session = await Prompt.startSession();
 
   try {
     session.startTransaction();
-    console.log(req.body);
-    const result = await Prompt.create(
-      [
-        {
-          ...req.body,
-          user: {
-            name: req?.user.name,
-            id: userId,
-          },
-          company: req?.user.company,
-          library: "company",
-        },
-      ],
-      { session }
-    );
+    // If an _id is provided, update the existing prompt
+    const existingPrompt = await Prompt.findById(req.body.id);
 
-    // Push new prompt id to user
-    await User.updateOne(
-      { _id: userId },
-      {
-        $push: {
-          prompts: result[0]._id,
-        },
+    if (!existingPrompt) {
+      throw new Error("Prompt not found"); // Handle this error as needed
+    }
+
+    // Update the existing prompt
+    Object.assign(existingPrompt, {
+      ...req.body,
+      user: {
+        name: req?.user.name,
+        id: userId,
       },
-      { session }
-    );
+      company: req?.user.company,
+      library: "company",
+    });
+    const updatedPrompt = await existingPrompt.save({ session });
 
+    // Handle any additional logic for updating prompts
     await session.commitTransaction();
     session.endSession();
 
@@ -53,4 +46,4 @@ const createPrompt = catchAsync(async (req, res) => {
   }
 });
 
-export default createPrompt;
+export default updatePrompt;

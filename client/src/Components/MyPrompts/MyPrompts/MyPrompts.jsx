@@ -2,12 +2,6 @@ import { AiOutlineStar } from "@react-icons/all-files/ai/AiOutlineStar";
 import { FiEdit3 } from "@react-icons/all-files/fi/FiEdit3";
 import person from "../../../assets/massege characters/image5.png";
 import React from "react";
-
-// import img1 from '../../../assets/color plates/Rectangle 1.png'
-// import img2 from '../../../assets/color plates/Rectangle 2.png'
-// import img3 from '../../../assets/color plates/Rectangle 3.png'
-// import img4 from '../../../assets/color plates/Rectangle 4.png'
-// import img5 from '../../../assets/color plates/Rectangle 5.png'
 import {
   Tabs,
   TabsHeader,
@@ -17,9 +11,12 @@ import {
 } from "@material-tailwind/react";
 import { Prompt } from "../../Library/Components/Prompt/Prompt";
 import { useGetPromptsByUserQuery } from "../../../redux-rtk/features/prompt/promptApi";
-
+import { useSelector } from "react-redux";
+import { selectSearchValue } from "../../../redux-rtk/features/search/searchSlice.js";
 const MyPrompts = () => {
   const [activeTab, setActiveTab] = React.useState("html");
+  const searchValue = useSelector(selectSearchValue);
+
   const data = [
     {
       label: "Meine Prompts",
@@ -40,115 +37,7 @@ const MyPrompts = () => {
   ];
 
   const { data: prompts, isLoading: promptLoading } =
-    useGetPromptsByUserQuery();
-
-  // const prompts = [
-  //     {
-  //         id: 1,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img1,
-  //     },
-  //     {
-  //         id: 2,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 3,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img3,
-  //     },
-  //     {
-  //         id: 4,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img4,
-  //     },
-  //     {
-  //         id: 5,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img5,
-  //     },
-  //     {
-  //         id: 6,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img1,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 7,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img2,
-  //     },
-  //     {
-  //         id: 8,
-  //         edit: true,
-  //         promptName: 'Prompt Name',
-  //         description: 'Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description Prompt Description ',
-  //         image: img3,
-  //     }
-  // ]
+    useGetPromptsByUserQuery(searchValue);
 
   return (
     <div className="grow max-h-screen rest-screen-my-prompts mt-[30px] overflow-hidden">
