@@ -20,10 +20,10 @@ import TypingMessage from "./TypingMessage";
 import NewMessageInp from "./NewMessageInp";
 
 const menuItems = [
-  { name: "GPT-4", imgSrc: img1 },
-  { name: "UnternehmensGPT", imgSrc: img2 },
-  { name: "Llama 2", imgSrc: img3 },
-  { name: "DALL-e 2", imgSrc: img4 },
+  { name: "GPT-4", imgSrc: img1, disabled: false },
+  { name: "UnternehmensGPT", imgSrc: img2, disabled: true },
+  { name: "Llama 2", imgSrc: img3, disabled: true },
+  { name: "DALL-e 2", imgSrc: img4, disabled: true },
 ];
 
 export default function MenuDefault({
@@ -82,6 +82,7 @@ export default function MenuDefault({
                 "text-black p-3 flex items-center gap-3 text-[15px] rounded-none hover:bg-[#64748B]",
                 menuItem.name === model ? "!bg-[#64748B]" : "bg-[#E6E6E6]"
               )}
+              disabled={menuItem.disabled}
               onClick={() => setModel(menuItem.name)}
             >
               <img className="w-[23px] h-[23px]" src={menuItem.imgSrc} alt="" />
