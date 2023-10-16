@@ -23,10 +23,11 @@ const GetPromptByUserId = catchAsync(async (req, res) => {
     })
       .populate("user.id")
       .populate("category subCategory image");
-  } else
+  } else {
     prompts = await Prompt.find({ "user.id": req?.user._id })
       .populate("user.id")
       .populate("category subCategory image");
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

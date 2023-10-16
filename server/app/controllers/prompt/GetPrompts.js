@@ -26,18 +26,13 @@ const GetPrompts = catchAsync(async (req, res) => {
       .populate("user.id")
       .populate("category subCategory image")
       .sort({ _id: -1 });
-  } else
-    prompts = await Prompt.find({ "user.id": req?.user._id })
+  } else {
+    prompts = await Prompt.find()
       .or([{ company: req?.user.company }, { library: "master" }])
       .populate("user.id")
       .populate("category subCategory image")
       .sort({ _id: -1 });
-
-  const data = await Prompt.find()
-    .or([{ company: req?.user.company }, { library: "master" }])
-    .populate("user.id")
-    .populate("category subCategory image")
-    .sort({ _id: -1 });
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
