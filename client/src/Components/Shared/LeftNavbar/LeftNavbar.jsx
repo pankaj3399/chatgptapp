@@ -2,17 +2,17 @@ import { FiBook } from "@react-icons/all-files/fi/FiBook";
 import { BsChatDots } from "@react-icons/all-files/bs/BsChatDots";
 import { AiOutlineStar } from "@react-icons/all-files/ai/AiOutlineStar";
 import { NavLink } from "react-router-dom";
-import leftBarLogo from "../../../assets/Logo/leftBarLogo.svg";
+import loginLogo from "../../../assets/Logo/loginLogo.png";
 
 const LeftNavbar = () => {
   return (
     <div className="pt-5 ps-3 w-1/5 bg-[#FAFAFA] h-screen sticky top-0">
       <div>
         <div className="flex items-center text-base	font-bold">
-          <img src={leftBarLogo} style={{ width: "80%" }} alt="" />
+          <img src={loginLogo} style={{ width: "80%" }} alt="" />
           {/* <p className='ms-2'>KI-Cockpit</p> */}
         </div>
-        <ul className="mt-6 navitems">
+        <ul className="mt-8 navitems">
           <NavLink
             className={({ isActive }) => {
               return isActive ? "active" : "";

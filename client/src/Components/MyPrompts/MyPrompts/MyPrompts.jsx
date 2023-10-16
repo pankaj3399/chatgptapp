@@ -13,9 +13,11 @@ import { Prompt } from "../../Library/Components/Prompt/Prompt";
 import { useGetPromptsByUserQuery } from "../../../redux-rtk/features/prompt/promptApi";
 import { useSelector } from "react-redux";
 import { selectSearchValue } from "../../../redux-rtk/features/search/searchSlice.js";
+import { getLoggedInUser } from "../../../redux-rtk/features/auth/authSlice";
 const MyPrompts = () => {
   const [activeTab, setActiveTab] = React.useState("html");
   const searchValue = useSelector(selectSearchValue);
+  const user = useSelector(getLoggedInUser);
 
   const data = [
     {
@@ -61,9 +63,9 @@ const MyPrompts = () => {
                 alt=""
               />
               <h1 className="text-xl font-bold text-white mt-6">
-                Digital Dieter
+                {user?.name}
               </h1>
-              <p className="text-white text-[15px] mt-2">User</p>
+              <p className="text-white text-[15px] mt-2">{user?.role}</p>
             </div>
           </div>
         </div>

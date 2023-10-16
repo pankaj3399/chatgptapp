@@ -1,5 +1,7 @@
 import { apiSlice } from "../api/apiSlice";
 import toast from "react-hot-toast";
+import { jwtExpMsg } from "../../../configs/constants";
+import { userLoggedOut } from "../auth/authSlice";
 
 export const promptApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,10 +12,13 @@ export const promptApi = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 600,
       providesTags: ["Prompts"],
-      async onQueryStarted(arg, { queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
         } catch (error) {
+          if (error.error.data.message === jwtExpMsg) {
+            dispatch(userLoggedOut());
+          }
           toast.error(error.error.data.message);
         }
       },
@@ -26,10 +31,13 @@ export const promptApi = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 600,
       providesTags: ["Prompts"],
-      async onQueryStarted(arg, { queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
         } catch (error) {
+          if (error.error.data.message === jwtExpMsg) {
+            dispatch(userLoggedOut());
+          }
           toast.error(error.error.data.message);
         }
       },
@@ -42,11 +50,14 @@ export const promptApi = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["Prompts"],
-      async onQueryStarted(arg, { queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           toast.success(result.data.message);
         } catch (error) {
+          if (error.error.data.message === jwtExpMsg) {
+            dispatch(userLoggedOut());
+          }
           toast.error(error.error.data.message);
         }
       },
@@ -59,11 +70,14 @@ export const promptApi = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["Prompts"],
-      async onQueryStarted(arg, { queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           toast.success(result.data.message);
         } catch (error) {
+          if (error.error.data.message === jwtExpMsg) {
+            dispatch(userLoggedOut());
+          }
           toast.error(error.error.data.message);
         }
       },
@@ -76,11 +90,14 @@ export const promptApi = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: ["Prompts"],
-      onQueryStarted: async (arg, { queryFulfilled }) => {
+      onQueryStarted: async (arg, { queryFulfilled, dispatch }) => {
         try {
           const result = await queryFulfilled;
           toast.success(result.data.message);
         } catch (error) {
+          if (error.error.data.message === jwtExpMsg) {
+            dispatch(userLoggedOut());
+          }
           toast.error(error.error.data.message);
         }
       },
@@ -93,5 +110,5 @@ export const {
   useGetPromptsByUserQuery,
   useCreatePromptMutation,
   useUpdatePromptMutation,
-  useDeletePromptMutation // Add the delete mutation to the exported functions
+  useDeletePromptMutation, // Add the delete mutation to the exported functions
 } = promptApi;

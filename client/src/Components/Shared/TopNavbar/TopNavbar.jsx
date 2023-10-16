@@ -12,19 +12,15 @@ import { userLoggedOut } from "../../../redux-rtk/features/auth/authSlice";
 import { loginUrl } from "../../../configs/constants";
 import {
   setSearchValue,
-  selectSearchValue,
 } from "../../../redux-rtk/features/search/searchSlice.js";
 import {
   setSearchLibValue,
-  selectSearchLibValue,
 } from "../../../redux-rtk/features/searchLib/searchLibSlice.js";
 
 export function TopNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const searchValue = useSelector(selectSearchValue);
-  const searchLib = useSelector(selectSearchLibValue);
   const [open, setOpen] = React.useState(false);
   const [userQuery, setUserQuery] = React.useState("");
   const handleCreate = () => setOpen(!open);
@@ -117,7 +113,7 @@ export function TopNavbar() {
               onClick={handleCreate}
             >
               <Link to={"/createPrompts"}>
-                <div className=" bg-white text-black p-5 rounded-md">
+                <div className=" bg-white text-black p-5 rounded-md" style={{height: '241px'}}>
                   <h1 className="text-[25px] font-extrabold pb-3">Prompt</h1>
                   <p className="text-[13px] font-thin">
                     Ein Prompt der eine spezifische Anweisung an die KI stellt,
@@ -129,7 +125,7 @@ export function TopNavbar() {
                 </div>
               </Link>
               <Link to={"/createCharacter"} onClick={handleCreate}>
-                <div className=" bg-white text-black p-5 rounded-md">
+                <div className=" bg-white text-black p-5 rounded-md" style={{height: '241px'}}>
                   <h1 className="text-[25px] font-extrabold pb-3">Charakter</h1>
                   <p className="text-[13px] font-thin">
                     Ein Prompt der einer KI einen bestimmten Charakter und
