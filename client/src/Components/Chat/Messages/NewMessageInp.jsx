@@ -21,6 +21,10 @@ const NewMessageInp = ({
   };
 
   const adjustTextareaHeight = (textarea) => {
+    if(textarea.value === ""){
+      textarea.style.height ='48px';
+      return;
+    }
     const maxLines = 7;
     const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
 

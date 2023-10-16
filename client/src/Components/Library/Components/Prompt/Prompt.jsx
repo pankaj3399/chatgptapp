@@ -206,7 +206,7 @@ export function Prompt({ prompt, deletePrompts }) {
                     </span>
                   </Button>
                 </div>
-                <p className="bg-[#303030] mt-2 text-[12px] p-3 h-5/7" style={{ whiteSpace: 'pre-wrap'}}>
+                <p className="bg-[#303030] mt-2 text-[12px] p-3 h-5/7" style={{ whiteSpace: 'pre-wrap', maxHeight: '800px', overflow: 'scroll'}}>
                   {prompt?.prompt}
                 </p>
                 <button
