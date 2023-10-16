@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDeletePromptMutation } from "../../../../redux-rtk/features/prompt/promptApi.js";
 import DeleteIcon from "../../../../assets/icons/deleteIcon.svg";
+import TrashIcon from '../../../../assets/icons/trashIcon.svg'
 
 export function Prompt({ prompt, deletePrompts }) {
   const navigate = useNavigate();
@@ -47,7 +48,6 @@ export function Prompt({ prompt, deletePrompts }) {
     // dispatch(useDeletePromptMutation(promptId));
     deletePrompt(promptId).then((result) => {
       if (!result.error) {
-        toast.success(result.data.message);
         // Handle any other logic you need here after a successful delete
         deletePrompts(promptId);
       } else {
@@ -108,7 +108,7 @@ export function Prompt({ prompt, deletePrompts }) {
                 style={{right: '5rem'}}
                 className="bg-white text-black py-1 ps-1 w-[60px] rounded-md flex items-center text-xs ms-auto absolute top-3 "
               >
-                Delete<FiEdit3></FiEdit3>
+                Delete <img alt="trashIcon" className="h-4 ms-1" src={TrashIcon} />
               </button>
             </>
           )}

@@ -40,6 +40,10 @@ export function TopNavbar() {
   const handleSearchInputChange = (event) => {
     const inputValue = event.target.value;
     setUserQuery(inputValue);
+    if(inputValue===""){
+      location.pathname === "/myPrompts" && dispatch(setSearchValue(inputValue));
+      location.pathname === "/library" && dispatch(setSearchLibValue(inputValue));
+    }
   };
 
   return (
