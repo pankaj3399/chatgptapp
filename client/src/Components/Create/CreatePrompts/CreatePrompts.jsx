@@ -164,7 +164,7 @@ const CreatePrompts = () => {
     <div className="bg-[#303030] mt-4 p-10 text-white">
       <div className="flex items-center justify-between">
         <p className="flex items-center gap-3 text-2xl font-extrabold mb-7">
-          <AiOutlinePlus></AiOutlinePlus>{location.state ? "Prompt bearbiten" : "Prompt hinzufügen"}
+          <AiOutlinePlus></AiOutlinePlus>{location.state ? "Prompt bearbeiten" : "Prompt hinzufügen"}
         </p>
         <Link to={"/library"}>
           <p className="cursor-pointer flex items-center gap-4 bg-white text-black py-2 px-4 rounded-md">
