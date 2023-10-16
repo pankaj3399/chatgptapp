@@ -48,7 +48,6 @@ export function Prompt({ prompt, deletePrompts }) {
     // dispatch(useDeletePromptMutation(promptId));
     deletePrompt(promptId).then((result) => {
       if (!result.error) {
-        toast.success(result.data.message);
         // Handle any other logic you need here after a successful delete
         deletePrompts(promptId);
       } else {
